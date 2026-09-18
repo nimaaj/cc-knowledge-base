@@ -1,0 +1,30 @@
+{
+  "name": "cc-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.19.0",
+  "engines": {
+    "node": ">=24 <27"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "cca": "node apps/cli/dist/index.js",
+    "dev": "pnpm --parallel --filter @cc-assistant/daemon --filter @cc-assistant/web dev",
+    "dev:daemon": "pnpm --filter @cc-assistant/daemon dev",
+    "dev:web": "pnpm --filter @cc-assistant/web dev",
+    "start": "pnpm --filter @cc-assistant/daemon start",
+    "smoke:mcp": "node scripts/mcp-smoke.mjs",
+    "native:watch-notifications": "swift native/macos/notification-watcher.swift --daemon http://127.0.0.1:4317 --token-file .data/access-token",
+    "hooks:install-global": "node scripts/install-global-claude-hooks.mjs",
+    "hooks:remove-global": "node scripts/install-global-claude-hooks.mjs --remove",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^6.0.0",
+    "vitest": "^3.2.0"
+  }
+}

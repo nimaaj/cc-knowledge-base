@@ -1,0 +1,18 @@
+{
+  "manifestVersion": 1,
+  "id": "say-hello",
+  "name": "Say hello",
+  "description": "Print a greeting without using a shell.",
+  "inputSchema": {
+    "type": "object",
+    "properties": { "name": { "type": "string" } },
+    "required": ["name"],
+    "additionalProperties": false
+  },
+  "execution": {
+    "kind": "command",
+    "executable": "printf",
+    "args": ["Hello %s\\n", "${input.name}"],
+    "timeoutMs": 10000
+  }
+}

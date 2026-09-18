@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "cc-assistant": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${CLAUDE_PROJECT_DIR:-.}/apps/mcp/dist/index.js"],
+      "env": {
+        "CC_ASSISTANT_DATA_DIR": "${CLAUDE_PROJECT_DIR:-.}/.data",
+        "CC_ASSISTANT_DAEMON_URL": "http://127.0.0.1:4317"
+      }
+    }
+  }
+}

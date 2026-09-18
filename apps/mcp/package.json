@@ -1,0 +1,20 @@
+{
+  "name": "@cc-assistant/mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "cc-assistant-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@cc-assistant/client": "workspace:*",
+    "@cc-assistant/shared": "workspace:*",
+    "@modelcontextprotocol/server": "^2.0.0",
+    "zod": "^4.1.0"
+  }
+}
