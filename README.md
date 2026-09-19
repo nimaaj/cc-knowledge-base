@@ -111,6 +111,8 @@ SQLite remains the canonical store. `cca memory export` produces deterministic, 
 
 Every edit requires the page's current positive `revision`. A stale edit receives HTTP 409 instead of overwriting another actor's changes. See [`docs/memory.md`](./docs/memory.md) for the model and API.
 
+For the assistant's complete recall, capture, organization, conflict-handling, and archival workflow, use the [CC Assistant knowledge-base operating playbook](./docs/cc-assistant-knowledge-base-playbook.md).
+
 ## Google Calendar and Slack through Chrome
 
 There is deliberately no Calendar or Slack API credential path. Load [`browser-extension`](./browser-extension) as an unpacked Chrome extension, open its options, and paste `.data/access-token`. Keep signed-in `calendar.google.com` and `app.slack.com` tabs open.
@@ -147,6 +149,8 @@ docs              Architecture decisions and implementation roadmap
 ```
 
 Open the [interactive architecture flowchart](./docs/cc-knowledge-base-swimlane-flow.html) for the request lifecycle, domain branches, canonical memory state, tag handling, and Markdown export/import paths. Select any node to expand its behavior and source references.
+
+Agents continuing development should begin with [`AGENT_HANDOFF.md`](./AGENT_HANDOFF.md), which records the system map, invariants, public interfaces, verification workflow, and current limitations.
 
 ## Security properties
 
