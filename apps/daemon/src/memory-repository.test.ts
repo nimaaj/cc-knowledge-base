@@ -46,6 +46,10 @@ describe("SqliteMemoryRepository", () => {
     expect(store.list({ query: "Flowers" })).toMatchObject([{ id: first.memory.id }]);
     expect(store.list({ query: `"blue" (green)` })).toMatchObject([{ id: first.memory.id }]);
     expect(store.list({ query: `!!!` })).toHaveLength(2);
+    expect(store.listTags()).toEqual([
+      { tag: "deployments", count: 1 },
+      { tag: "work", count: 1 },
+    ]);
     store.close();
   });
 

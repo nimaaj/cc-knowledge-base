@@ -5,6 +5,7 @@ import {
   MemoryDetailSchema,
   MemoryListSchema,
   MemoryRevisionListSchema,
+  MemoryTagListSchema,
   RunListSchema,
   ScheduleListSchema,
   TaskListSchema,
@@ -16,6 +17,7 @@ import {
   type Memory,
   type MemoryDetail,
   type MemoryRevision,
+  type MemoryTag,
   type Run,
   type Schedule,
   type Task,
@@ -107,14 +109,35 @@ export async function createReminder(input: { title: string; body: string; at: s
   }) });
 }
 
-export async function listMemories(query = "", includeArchived = false): Promise<Memory[]> {
+export async function listMemories(options: {
+  query?: string;
+  includeArchived?: boolean;
+  tag?: string;
+  project?: string;
+  kind?: string;
+} = {}): Promise<Memory[]> {
   const params = new URLSearchParams();
-  if (query) params.set("q", query);
-  if (includeArchived) params.set("includeArchived", "true");
+  params.set("limit", "500");
+  if (options.query) params.set("q", options.query);
+  if (options.includeArchived) params.set("includeArchived", "true");
+  if (options.tag) params.set("tag", options.tag);
+  if (options.project) params.set("project", options.project);
+  if (options.kind) params.set("kind", options.kind);
   return MemoryListSchema.parse(await request(`/api/memories?${params}`)).memories;
 }
 
-export async function createMemory(input: { title: string; body: string; tags?: string[] }): Promise<MemoryDetail> {
+export async function listMemoryTags(includeArchived = false): Promise<MemoryTag[]> {
+  const suffix = includeArchived ? "?includeArchived=true" : "";
+  return MemoryTagListSchema.parse(await request(`/api/memories/tags${suffix}`)).tags;
+}
+
+export async function createMemory(input: {
+  title: string;
+  body: string;
+  tags?: string[];
+  kind?: string;
+  project?: string | null;
+}): Promise<MemoryDetail> {
   return MemoryDetailSchema.parse(await request("/api/memories", {
     method: "POST", body: JSON.stringify(input),
   }));

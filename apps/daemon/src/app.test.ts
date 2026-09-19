@@ -237,6 +237,39 @@ describe("daemon API", () => {
     });
     expect(history.json().revisions.map((revision: { revision: number }) => revision.revision)).toEqual([2, 1]);
 
+    const tags = await app.inject({ method: "GET", url: "/api/memories/tags", headers });
+    expect(tags.json().tags).toEqual([{ tag: "deployments", count: 1 }]);
+
+    const exported = await app.inject({ method: "GET", url: "/api/memories/export", headers });
+    expect(exported.statusCode).toBe(200);
+    const exportedFile = exported.json().files.find((file: { path: string }) => file.path === "memories/release-handbook.md");
+    expect(exportedFile.content).toContain('tags: ["deployments"]');
+    const changedContent = exportedFile.content.replace(
+      "Updated. See [[Project Orchid]].",
+      "Updated through Markdown. See [[Project Orchid]].",
+    );
+    const preview = await app.inject({
+      method: "POST", url: "/api/memories/import/preview", headers,
+      payload: { files: [{ path: exportedFile.path, content: changedContent }] },
+    });
+    expect(preview.json().summary).toMatchObject({ update: 1, conflict: 0, invalid: 0 });
+
+    const imported = await app.inject({
+      method: "POST", url: "/api/memories/import", headers,
+      payload: { files: [{ path: exportedFile.path, content: changedContent }] },
+    });
+    expect(imported.statusCode).toBe(200);
+    expect(imported.json().memories[0].memory).toMatchObject({
+      slug: "release-handbook", body: "Updated through Markdown. See [[Project Orchid]].", revision: 3,
+    });
+
+    const staleImport = await app.inject({
+      method: "POST", url: "/api/memories/import", headers,
+      payload: { files: [{ path: exportedFile.path, content: changedContent.replace("Markdown", "stale Markdown") }] },
+    });
+    expect(staleImport.statusCode).toBe(409);
+    expect(staleImport.json().plan.summary.conflict).toBe(1);
+
     const events = await app.inject({ method: "GET", url: "/api/events", headers });
     expect(events.json().events).toEqual(expect.arrayContaining([
       expect.objectContaining({ type: "memory.ingested", source: "mcp" }),

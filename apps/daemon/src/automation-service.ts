@@ -42,8 +42,9 @@ export class AutomationService {
   readonly #execution: ExecutionService;
   readonly #native: NativeService;
   readonly #config: DaemonConfig;
-  #timer?: NodeJS.Timeout;
+  #timer: NodeJS.Timeout | undefined;
   readonly #firing = new Set<string>();
+  readonly #activeTicks = new Set<Promise<void>>();
 
   constructor(repository: AssistantRepository, execution: ExecutionService, native: NativeService, config: DaemonConfig) {
     this.#repository = repository;
@@ -53,12 +54,21 @@ export class AutomationService {
   }
 
   start(): void {
-    this.#timer = setInterval(() => void this.tick(), 1_000);
+    this.#timer = setInterval(() => this.#runTick(), 1_000);
     this.#timer.unref();
-    void this.tick();
+    this.#runTick();
   }
 
-  stop(): void { if (this.#timer) clearInterval(this.#timer); }
+  async stop(): Promise<void> {
+    if (this.#timer) clearInterval(this.#timer);
+    this.#timer = undefined;
+    await Promise.allSettled([...this.#activeTicks]);
+  }
+
+  #runTick(): void {
+    const active = this.tick().finally(() => this.#activeTicks.delete(active));
+    this.#activeTicks.add(active);
+  }
 
   async tick(): Promise<void> {
     for (const schedule of this.#repository.dueSchedules()) await this.#fire(schedule);

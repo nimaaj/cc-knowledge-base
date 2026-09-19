@@ -16,7 +16,7 @@
 body { margin: 0; min-width: 320px; min-height: 100vh; background:
   radial-gradient(circle at 75% -15%, rgba(81, 128, 76, .24), transparent 32rem),
   #0d120f; }
-button, input, textarea { font: inherit; }
+button, input, textarea, select { font: inherit; }
 button { cursor: pointer; }
 code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-size: .85em; color: var(--accent); }
 
@@ -31,6 +31,8 @@ code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-si
 label { font-size: .76rem; color: #b2bdb6; font-weight: 600; }
 input { width: 100%; color: #edf2ee; background: #0f1511; border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; outline: none; transition: border-color .15s, box-shadow .15s; }
 input:focus { border-color: #79a74b; box-shadow: 0 0 0 3px rgba(185, 244, 109, .08); }
+select { color: #edf2ee; background: #0f1511; border: 1px solid var(--line); border-radius: 10px; padding: 10px 32px 10px 12px; outline: none; }
+select:focus { border-color: #79a74b; box-shadow: 0 0 0 3px rgba(185, 244, 109, .08); }
 textarea { width: 100%; min-height: 76px; resize: vertical; color: #edf2ee; background: #0f1511; border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; outline: none; }
 textarea:focus { border-color: #79a74b; box-shadow: 0 0 0 3px rgba(185, 244, 109, .08); }
 button { color: #dbe3dd; background: transparent; border: 1px solid #39473f; border-radius: 8px; padding: 7px 10px; font-size: .78rem; font-weight: 600; }
@@ -67,7 +69,7 @@ header h1 { margin: 8px 0 0; font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing
 .memory-peek span { padding: 3px 6px; color: var(--muted); background: #222c26; border-radius: 5px; font-size: .62rem; }
 
 .memory-workspace { margin-top: 28px; padding: 18px; background: rgba(21, 28, 24, .72); border: 1px solid var(--line); border-radius: 16px; }
-.memory-search { display: grid; grid-template-columns: 1fr auto auto; gap: 9px; align-items: center; }
+.memory-search { display: grid; grid-template-columns: 1fr minmax(150px, auto) auto auto; gap: 9px; align-items: center; }
 .memory-search label { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
 .memory-search label input { width: auto; }
 .memory-layout { display: grid; grid-template-columns: minmax(210px, 320px) minmax(0, 1fr); gap: 14px; margin-top: 14px; }
@@ -76,6 +78,7 @@ header h1 { margin: 8px 0 0; font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing
 .memory-results > button.selected { border-color: #718f56; background: rgba(185, 244, 109, .06); }
 .memory-results strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .memory-results span { color: var(--muted); font-size: .62rem; text-transform: capitalize; }
+.memory-results small { overflow: hidden; color: #738078; font-size: .58rem; text-overflow: ellipsis; white-space: nowrap; }
 .memory-page { min-height: 260px; padding: 18px; background: #111713; border: 1px solid var(--line); border-radius: 12px; }
 .memory-placeholder { color: var(--muted); font-size: .78rem; }
 .memory-page-heading { display: flex; justify-content: space-between; gap: 12px; }
@@ -85,7 +88,8 @@ header h1 { margin: 8px 0 0; font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing
 .memory-body { margin-top: 18px; color: #d8e0da; font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-size: .78rem; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
 .wiki-link { display: inline; padding: 0 2px; color: var(--accent); border: 0; font-family: inherit; font-size: inherit; vertical-align: baseline; }
 .memory-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 18px; }
-.memory-tags span { padding: 3px 6px; color: var(--muted); background: #222c26; border-radius: 5px; font-size: .62rem; }
+.memory-tags button { padding: 3px 6px; color: var(--muted); background: #222c26; border: 0; border-radius: 5px; font-size: .62rem; }
+.memory-tags button:hover { color: var(--accent); background: #29352e; }
 .memory-connections { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
 .memory-connections > div { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; }
 .memory-connections strong { width: 100%; color: var(--muted); font-size: .66rem; text-transform: uppercase; }

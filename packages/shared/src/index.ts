@@ -388,6 +388,57 @@ export const MemoryDetailSchema = z.object({
 });
 export type MemoryDetail = z.infer<typeof MemoryDetailSchema>;
 
+export const MemoryTagSchema = z.object({
+  tag: z.string().min(1),
+  count: z.number().int().nonnegative(),
+});
+export const MemoryTagListSchema = z.object({ tags: z.array(MemoryTagSchema) });
+export type MemoryTag = z.infer<typeof MemoryTagSchema>;
+
+export const MemoryMarkdownFileSchema = z.object({
+  path: z.string().trim().min(1).max(500),
+  content: z.string().max(300_000),
+});
+export type MemoryMarkdownFile = z.infer<typeof MemoryMarkdownFileSchema>;
+
+export const MemoryMarkdownExportSchema = z.object({
+  formatVersion: z.literal(1),
+  exportedAt: z.iso.datetime(),
+  files: z.array(MemoryMarkdownFileSchema).max(10_000),
+});
+export type MemoryMarkdownExport = z.infer<typeof MemoryMarkdownExportSchema>;
+
+export const MemoryMarkdownImportRequestSchema = z.object({
+  files: z.array(MemoryMarkdownFileSchema).min(1).max(10_000),
+});
+export type MemoryMarkdownImportRequest = z.infer<typeof MemoryMarkdownImportRequestSchema>;
+
+export const memoryImportActions = ["create", "update", "unchanged", "conflict", "invalid"] as const;
+export const MemoryImportActionSchema = z.enum(memoryImportActions);
+export type MemoryImportAction = z.infer<typeof MemoryImportActionSchema>;
+
+export const MemoryImportEntrySchema = z.object({
+  path: z.string().min(1),
+  slug: z.string().nullable(),
+  action: MemoryImportActionSchema,
+  reason: z.string().nullable(),
+  currentRevision: z.number().int().positive().nullable(),
+  importedRevision: z.number().int().nonnegative().nullable(),
+});
+export type MemoryImportEntry = z.infer<typeof MemoryImportEntrySchema>;
+
+export const MemoryImportPlanSchema = z.object({
+  entries: z.array(MemoryImportEntrySchema),
+  summary: z.object({
+    create: z.number().int().nonnegative(),
+    update: z.number().int().nonnegative(),
+    unchanged: z.number().int().nonnegative(),
+    conflict: z.number().int().nonnegative(),
+    invalid: z.number().int().nonnegative(),
+  }),
+});
+export type MemoryImportPlan = z.infer<typeof MemoryImportPlanSchema>;
+
 export const AbilityManifestSchema = z.object({
   manifestVersion: z.literal(1),
   id: z.string().regex(/^[a-z][a-z0-9-]{1,63}$/),

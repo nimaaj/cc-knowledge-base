@@ -1,180 +1,22 @@
 <!doctype html>
-<html lang="en-US">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
-<title>cc-knowledge-base-swimlane-flow.html</title>
-<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;max-width:736px;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
+<title>CC Knowledge Base Swimlane Flow</title>
+<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
 </head>
 <body>
-<iframe id="codex-visualization" sandbox="allow-scripts" scrolling="no" referrerpolicy="no-referrer" title="cc-knowledge-base-swimlane-flow.html" data-srcdoc="&lt;!doctype html&gt;
-&lt;html lang=&quot;en-US&quot;&gt;
+<iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="CC Knowledge Base Swimlane Flow" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;utf-8&quot;&gt;
 &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
 &lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
-&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'&quot;&gt;
-&lt;title&gt;cc-knowledge-base-swimlane-flow.html&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;script&gt;(() =&gt; {
-  const root = document.documentElement;
-  const mediaQuery = globalThis.matchMedia(&quot;(prefers-color-scheme: dark)&quot;);
-  const apply = Reflect.apply;
-  const isArray = Array.isArray;
-  const parentWindow = globalThis.parent;
-  /**
-   * @param {object} prototype
-   * @param {string} property
-   */
-  const getPrototypeGetter = (prototype, property) =&gt; {
-    // oxlint-disable-next-line typescript/unbound-method -- invoked through captured Reflect.apply
-    const getter = Object.getOwnPropertyDescriptor(prototype, property)?.get;
-    if (getter == null) {
-      throw new Error(`Missing ${property} getter`);
-    }
-    return getter;
-  };
-  const getMessageData = getPrototypeGetter(MessageEvent.prototype, &quot;data&quot;);
-  const getMessagePorts = getPrototypeGetter(MessageEvent.prototype, &quot;ports&quot;);
-  const getMessageSource = getPrototypeGetter(MessageEvent.prototype, &quot;source&quot;);
-  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
-  const addHostMessageListener = MessagePort.prototype.addEventListener;
-  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
-  const postHostMessage = MessagePort.prototype.postMessage;
-  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
-  const startHostPort = MessagePort.prototype.start;
-  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
-  const stopMessagePropagation = Event.prototype.stopImmediatePropagation;
-  /** @type {MessagePort | null} */
-  let hostPort = null;
-  const postToHost = (type, payload) =&gt; {
-    if (hostPort != null) {
-      apply(postHostMessage, hostPort, [{ type, ...payload }]);
-    }
-  };
-  const openExternal = ({ href }) =&gt; {
-    if (globalThis.navigator.userActivation?.isActive === true) {
-      postToHost(&quot;open-external&quot;, { href });
-    }
-  };
-  const sendFollowUpMessage = ({ context, prompt, title }) =&gt; {
-    if (globalThis.navigator.userActivation?.isActive === true) {
-      postToHost(&quot;follow-up&quot;, { context, prompt, title });
-    }
-    return Promise.resolve();
-  };
-  const syncTheme = () =&gt; {
-    const theme = mediaQuery.matches ? &quot;dark&quot; : &quot;light&quot;;
-    root.dataset.theme = theme;
-    globalThis.openai = {
-      ...globalThis.openai,
-      openExternal,
-      sendFollowUpMessage,
-      theme,
-      visualizationStyleVariables: {},
-      visualizationTheme: theme,
-    };
-    globalThis.dispatchEvent(
-      new CustomEvent(&quot;openai:set_globals&quot;, {
-        detail: { globals: globalThis.openai },
-      }),
-    );
-  };
-  const sendHeight = () =&gt; {
-    postToHost(&quot;height&quot;, {
-      height: Math.ceil(
-        Math.max(
-          document.body.scrollHeight,
-          document.body.getBoundingClientRect().height,
-        ),
-      ),
-    });
-  };
-
-  globalThis.addEventListener(
-    &quot;message&quot;,
-    (event) =&gt; {
-      const data = apply(getMessageData, event, []);
-      const ports = apply(getMessagePorts, event, []);
-      const source = apply(getMessageSource, event, []);
-      if (
-        source !== parentWindow ||
-        typeof data !== &quot;object&quot; ||
-        data == null ||
-        data.type !== &quot;codex-visualization-initialize&quot; ||
-        !isArray(ports) ||
-        ports.length !== 1
-      ) {
-        return;
-      }
-      apply(stopMessagePropagation, event, []);
-      const nextHostPort = ports[0];
-      try {
-        apply(addHostMessageListener, nextHostPort, [
-          &quot;message&quot;,
-          (event) =&gt; {
-            const data = apply(getMessageData, event, []);
-            if (typeof data === &quot;object&quot; &amp;&amp; data?.type === &quot;measure&quot;) {
-              sendHeight();
-            }
-          },
-        ]);
-        apply(startHostPort, nextHostPort, []);
-      } catch {
-        return;
-      }
-      hostPort = nextHostPort;
-      sendHeight();
-    },
-    { capture: true },
-  );
-  document.currentScript?.remove();
-  mediaQuery.addEventListener(&quot;change&quot;, syncTheme);
-  globalThis.addEventListener(&quot;click&quot;, (event) =&gt; {
-    if (event.defaultPrevented) {
-      return;
-    }
-    let element = null;
-    if (event.target instanceof globalThis.Element) {
-      element = event.target;
-    } else if (event.target instanceof globalThis.Node) {
-      element = event.target.parentElement;
-    }
-    const link = element?.closest(&quot;a[href]&quot;);
-    const href = link?.getAttribute(&quot;href&quot;);
-    if (href == null) {
-      return;
-    }
-    if (href.startsWith(&quot;#&quot;)) {
-      let id;
-      try {
-        id = decodeURIComponent(href.slice(1));
-      } catch {
-        return;
-      }
-      const target = id.length === 0 ? root : document.getElementById(id);
-      if (
-        target == null ||
-        globalThis.navigator.userActivation?.isActive !== true
-      ) {
-        return;
-      }
-      event.preventDefault();
-      postToHost(&quot;scroll-to&quot;, {
-        top: target.getBoundingClientRect().top + globalThis.scrollY,
-      });
-      return;
-    }
-    event.preventDefault();
-    openExternal({ href });
-  });
-  new ResizeObserver(sendHeight).observe(document.body);
-  syncTheme();
-})();
-&lt;/script&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
+&lt;title&gt;CC Knowledge Base Swimlane Flow&lt;/title&gt;
 &lt;style&gt;:root {
   color-scheme: light dark;
   background-color: var(
@@ -289,7 +131,7 @@
   --radius-2xl: calc(var(--radius) * 1.6);
   --radius-full: 9999px;
   --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
-  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 17'%3E%3Cpath d='M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z'/%3E%3C/svg%3E&quot;);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 17 17&#x27;%3E%3Cpath d=&#x27;M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z&#x27;/%3E%3C/svg%3E&quot;);
 
   /* Legacy aliases; not part of the current agent contract. */
   --viz-bg: transparent;
@@ -1044,41 +886,8 @@ svg.lucide {
 }
 
 html&gt;body{padding:0}&lt;/style&gt;
-&lt;script&gt;
-(() =&gt; {
-  const root = document.documentElement;
-  const initialGlobals =
-    globalThis.__codexVisualizationInitialGlobals ?? globalThis.openai;
-  delete globalThis.__codexVisualizationInitialGlobals;
-  let appliedProperties = [];
-
-  const applyHostStyleVariables = (styleVariables) =&gt; {
-    if (styleVariables == null || typeof styleVariables !== &quot;object&quot;) {
-      return;
-    }
-    for (const property of appliedProperties) {
-      root.style.removeProperty(property);
-    }
-    appliedProperties = [];
-    for (const [property, value] of Object.entries(styleVariables)) {
-      if (property.startsWith(&quot;--&quot;) &amp;&amp; typeof value === &quot;string&quot;) {
-        root.style.setProperty(property, value);
-        appliedProperties.push(property);
-      }
-    }
-  };
-
-  const syncHostStyles = (globals) =&gt; {
-    applyHostStyleVariables(globals?.visualizationStyleVariables);
-  };
-
-  syncHostStyles(initialGlobals);
-  globalThis.addEventListener(&quot;openai:set_globals&quot;, (event) =&gt; {
-    syncHostStyles(event.detail?.globals);
-  });
-})();
-&lt;/script&gt;
-
+&lt;/head&gt;
+&lt;body&gt;
 &lt;div id=&quot;cc-kb-swimlane&quot; aria-labelledby=&quot;cc-kb-swimlane-title&quot;&gt;
   &lt;h1 id=&quot;cc-kb-swimlane-title&quot;&gt;CC Assistant request lifecycle&lt;/h1&gt;
   &lt;div class=&quot;viz-row flow-key&quot; aria-label=&quot;Flowchart legend&quot;&gt;
@@ -1102,7 +911,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     &lt;ol class=&quot;detail-steps&quot;&gt;&lt;/ol&gt;
     &lt;div class=&quot;detail-source text-muted&quot;&gt;&lt;/div&gt;
   &lt;/section&gt;
-  &lt;div class=&quot;sr-only&quot;&gt;A swimlane flowchart showing requests entering through MCP, CLI, web, hooks, or edge adapters; passing authentication and validation; branching into knowledge-base functions; persisting state; and returning live or external results.&lt;/div&gt;
+  &lt;div class=&quot;sr-only&quot;&gt;A swimlane flowchart showing requests entering through MCP, CLI, web, hooks, or edge adapters; passing authentication and validation; branching into knowledge-base functions; persisting canonical SQLite state; exporting or revision-checking Markdown memory files; and returning live or external results.&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;style&gt;
@@ -1294,10 +1103,22 @@ html&gt;body{padding:0}&lt;/style&gt;
         source: &quot;apps/daemon/src/app.ts · buildApp()&quot;
       },
       {
-        id: &quot;memory&quot;, lane: 2, type: &quot;process&quot;, label: &quot;Memory &amp; wiki&quot;,
-        summary: &quot;Capture, revise, link, search, recall, archive, and inspect durable Markdown knowledge pages.&quot;,
-        steps: [&quot;Create or ingest caller-synthesized content with provenance.&quot;, &quot;Normalize tags and aliases; generate a stable collision-safe slug.&quot;, &quot;Extract [[wiki links]] and maintain backlinks.&quot;, &quot;Search active pages through safe SQLite FTS5 tokens.&quot;, &quot;Require expectedRevision for edits and retain immutable history.&quot;],
-        source: &quot;apps/daemon/src/memory-repository.ts · docs/memory.md&quot;
+        id: &quot;memory&quot;, lane: 2, type: &quot;process&quot;, label: &quot;Memory &amp; tag catalog&quot;,
+        summary: &quot;Capture, revise, link, tag, search, recall, archive, and inspect durable knowledge pages.&quot;,
+        steps: [&quot;Create or ingest caller-synthesized content with provenance.&quot;, &quot;Normalize and deduplicate free-form tags and aliases.&quot;, &quot;Generate a stable collision-safe slug and maintain [[wiki links]] plus backlinks.&quot;, &quot;Search active pages through safe SQLite FTS5 tokens or exact tag filters.&quot;, &quot;Expose tag counts to the dashboard and API.&quot;],
+        source: &quot;apps/daemon/src/memory-repository.ts · apps/web/src/App.tsx · docs/memory.md&quot;
+      },
+      {
+        id: &quot;memoryMode&quot;, lane: 2, type: &quot;decision&quot;, label: &quot;Memory operation?&quot;,
+        summary: &quot;The memory route separates ordinary daemon-owned operations from Markdown interchange.&quot;,
+        steps: [&quot;CRUD and recall continue directly to canonical SQLite state.&quot;, &quot;Export renders every selected page as deterministic Markdown plus a JSON manifest.&quot;, &quot;Import parses a file or directory into a dry-run plan before any write.&quot;],
+        source: &quot;apps/daemon/src/app.ts · apps/cli/src/index.ts&quot;
+      },
+      {
+        id: &quot;importValidate&quot;, lane: 2, type: &quot;process&quot;, label: &quot;Parse + validate Markdown&quot;,
+        summary: &quot;Imported files are treated as untrusted data and validated against a strict versioned frontmatter contract.&quot;,
+        steps: [&quot;Require a .md path and delimited JSON-valued YAML frontmatter.&quot;, &quot;Reject unknown or duplicate metadata fields.&quot;, &quot;Validate IDs, slugs, tags, provenance, status, revision, and body limits.&quot;, &quot;Classify each file as create, update, unchanged, conflict, or invalid.&quot;],
+        source: &quot;apps/daemon/src/memory-markdown.ts · MemoryMarkdownImportRequestSchema&quot;
       },
       {
         id: &quot;tasks&quot;, lane: 2, type: &quot;process&quot;, label: &quot;Tasks &amp; sessions&quot;,
@@ -1325,9 +1146,21 @@ html&gt;body{padding:0}&lt;/style&gt;
       },
       {
         id: &quot;memoryState&quot;, lane: 3, type: &quot;state&quot;, label: &quot;Memory · FTS · links · revisions&quot;,
-        summary: &quot;A memory write updates every related structure in one immediate SQLite transaction.&quot;,
-        steps: [&quot;Write the page record.&quot;, &quot;Write the immutable revision snapshot.&quot;, &quot;Replace outgoing-link rows.&quot;, &quot;Update the active-page FTS index.&quot;, &quot;Append an audit event before commit.&quot;],
+        summary: &quot;SQLite remains canonical; a normal memory write updates every related structure in one immediate transaction.&quot;,
+        steps: [&quot;Write the page record and normalized tags.&quot;, &quot;Write the immutable revision snapshot.&quot;, &quot;Replace outgoing-link rows.&quot;, &quot;Update the active-page FTS index.&quot;, &quot;Append an audit event before commit.&quot;],
         source: &quot;SqliteMemoryRepository.#transaction()&quot;
+      },
+      {
+        id: &quot;importCheck&quot;, lane: 3, type: &quot;decision&quot;, label: &quot;Revision current?&quot;,
+        summary: &quot;A Markdown edit may update canonical memory only when its exported revision still matches SQLite.&quot;,
+        steps: [&quot;Resolve the stable ID and immutable slug.&quot;, &quot;Detect duplicate paths, IDs, and slugs inside the import.&quot;, &quot;Compare editable content after tag and alias normalization.&quot;, &quot;Block stale revisions or identity mismatches.&quot;],
+        source: &quot;apps/daemon/src/app.ts · planMemoryMarkdownImport()&quot;
+      },
+      {
+        id: &quot;importWrite&quot;, lane: 3, type: &quot;state&quot;, label: &quot;Apply canonical revision&quot;,
+        summary: &quot;Validated creates and updates pass through the same repository rules as API, MCP, CLI, and dashboard writes.&quot;,
+        steps: [&quot;Create a new local record while preserving slug and provenance.&quot;, &quot;Apply updates with expectedRevision.&quot;, &quot;Rebuild links and FTS entries.&quot;, &quot;Publish audit events only after commit.&quot;],
+        source: &quot;apps/daemon/src/app.ts · SqliteMemoryRepository.ingest() · update()&quot;
       },
       {
         id: &quot;taskState&quot;, lane: 3, type: &quot;state&quot;, label: &quot;Tasks · sessions · events&quot;,
@@ -1356,8 +1189,26 @@ html&gt;body{padding:0}&lt;/style&gt;
       {
         id: &quot;apiResult&quot;, lane: 4, type: &quot;output&quot;, label: &quot;API response + SSE&quot;,
         summary: &quot;Committed knowledge changes return through the API and publish to live dashboard subscribers.&quot;,
-        steps: [&quot;Return structured memory data to the caller.&quot;, &quot;Publish the audit event only after the transaction commits.&quot;, &quot;Refresh connected web clients through EventHub.&quot;],
+        steps: [&quot;Return structured memory data and normalized tags to the caller.&quot;, &quot;Publish the audit event only after the transaction commits.&quot;, &quot;Refresh connected web clients through EventHub.&quot;, &quot;Support exact tag filtering and tag-count discovery.&quot;],
         source: &quot;apps/daemon/src/event-hub.ts · /api/events/stream&quot;
+      },
+      {
+        id: &quot;markdownBundle&quot;, lane: 4, type: &quot;output&quot;, label: &quot;Markdown bundle + manifest&quot;,
+        summary: &quot;Export produces human-editable files without transferring canonical ownership away from SQLite.&quot;,
+        steps: [&quot;Sort pages by stable slug.&quot;, &quot;Write one deterministic memories/&lt;slug&gt;.md file per page.&quot;, &quot;Include revision, tags, aliases, status, and provenance in frontmatter.&quot;, &quot;Write manifest.json with the format version, export time, and file list.&quot;],
+        source: &quot;apps/daemon/src/memory-markdown.ts · cca memory export&quot;
+      },
+      {
+        id: &quot;importBlocked&quot;, lane: 4, type: &quot;reject&quot;, label: &quot;Dry-run / conflict plan&quot;,
+        summary: &quot;Invalid metadata and stale revisions are reported without overwriting canonical memory.&quot;,
+        steps: [&quot;Return create, update, unchanged, conflict, and invalid counts.&quot;, &quot;Explain the blocking reason for each affected file.&quot;, &quot;Require the user to resolve conflicts before applying the bundle.&quot;],
+        source: &quot;/api/memories/import/preview · /api/memories/import&quot;
+      },
+      {
+        id: &quot;importResult&quot;, lane: 4, type: &quot;output&quot;, label: &quot;Imported memory + events&quot;,
+        summary: &quot;A valid applied import becomes ordinary revisioned memory visible through every interface.&quot;,
+        steps: [&quot;Return the import plan and changed memory details.&quot;, &quot;Preserve normalized tags and source provenance.&quot;, &quot;Notify the live dashboard through the normal event path.&quot;],
+        source: &quot;/api/memories/import · EventHub&quot;
       },
       {
         id: &quot;uiResult&quot;, lane: 4, type: &quot;output&quot;, label: &quot;Dashboard · MCP · CLI&quot;,
@@ -1390,9 +1241,9 @@ html&gt;body{padding:0}&lt;/style&gt;
         source: &quot;browser-extension · native/macos · NativeService&quot;
       },
       {
-        id: &quot;end&quot;, lane: 4, type: &quot;end&quot;, label: &quot;Durable auditable outcome&quot;,
-        summary: &quot;The lifecycle ends with current state, a recorded source, and a result visible to the appropriate client.&quot;,
-        steps: [&quot;State survives individual Claude Code sessions.&quot;, &quot;Material mutations remain auditable.&quot;, &quot;Live consumers can update immediately.&quot;],
+        id: &quot;end&quot;, lane: 4, type: &quot;end&quot;, label: &quot;Visible controlled outcome&quot;,
+        summary: &quot;The lifecycle ends with either canonical state, a portable export, a safe conflict report, or another visible result.&quot;,
+        steps: [&quot;Canonical state survives individual Claude Code sessions.&quot;, &quot;Material mutations remain revisioned and auditable.&quot;, &quot;Read-only exports and blocked imports do not bypass daemon ownership.&quot;, &quot;Live consumers can update immediately.&quot;],
         source: &quot;SQLite events + EventHub&quot;
       }
     ];
@@ -1447,15 +1298,18 @@ html&gt;body{padding:0}&lt;/style&gt;
           start: [center(0), 92, 112, 48], entry: [center(0), 172, 146, 58],
           auth: [center(1), 172, 132, 82], reject: [center(1), 286, 136, 48],
           validate: [center(2), 172, 150, 58], route: [center(2), 286, 136, 82],
-          memory: [center(2), 410, 150, 58], tasks: [center(2), 510, 150, 58],
-          runs: [center(2), 610, 150, 58], automation: [center(2), 710, 150, 58],
-          browser: [center(2), 810, 150, 58], memoryState: [center(3), 410, 154, 60],
-          taskState: [center(3), 510, 154, 60], approval: [center(3), 610, 138, 82],
-          scheduleState: [center(3), 710, 154, 60], jobState: [center(3), 810, 154, 60],
-          apiResult: [center(4), 410, 148, 58], uiResult: [center(4), 510, 148, 58],
-          approvalQueue: [center(4), 575, 148, 54], execution: [center(4), 655, 148, 58],
-          reminder: [center(4), 735, 148, 58], adapter: [center(4), 815, 148, 58],
-          end: [center(4), 920, 154, 52]
+          memory: [center(2), 400, 150, 58], memoryMode: [center(2), 500, 138, 82],
+          importValidate: [center(2), 600, 150, 58], memoryState: [center(3), 420, 154, 60],
+          importCheck: [center(3), 600, 138, 82], importWrite: [center(3), 690, 154, 60],
+          apiResult: [center(4), 420, 148, 58], markdownBundle: [center(4), 500, 148, 58],
+          importBlocked: [center(4), 585, 148, 54], importResult: [center(4), 690, 148, 58],
+          tasks: [center(2), 800, 150, 58], taskState: [center(3), 800, 154, 60],
+          uiResult: [center(4), 800, 148, 58], runs: [center(2), 900, 150, 58],
+          approval: [center(3), 900, 138, 82], approvalQueue: [center(4), 865, 148, 54],
+          execution: [center(4), 945, 148, 58], automation: [center(2), 1030, 150, 58],
+          scheduleState: [center(3), 1030, 154, 60], reminder: [center(4), 1030, 148, 58],
+          browser: [center(2), 1160, 150, 58], jobState: [center(3), 1160, 154, 60],
+          adapter: [center(4), 1160, 148, 58], end: [center(4), 1290, 154, 52]
         };
         const raw = wide[id];
         const maxWidth = Math.max(88, laneWidth - 20);
@@ -1464,23 +1318,25 @@ html&gt;body{padding:0}&lt;/style&gt;
       const centerX = width / 2;
       const compactY = {
         start: 68, entry: 145, auth: 235, reject: 345, validate: 440, route: 540,
-        memory: 675, memoryState: 755, apiResult: 835,
-        tasks: 960, taskState: 1040, uiResult: 1120,
-        runs: 1245, approval: 1335, approvalQueue: 1430, execution: 1515,
-        automation: 1640, scheduleState: 1720, reminder: 1800,
-        browser: 1925, jobState: 2005, adapter: 2085, end: 2205
+        memory: 675, memoryMode: 765, markdownBundle: 875, memoryState: 875,
+        apiResult: 965, importValidate: 1075, importCheck: 1170,
+        importBlocked: 1275, importWrite: 1275, importResult: 1370,
+        tasks: 1500, taskState: 1580, uiResult: 1660,
+        runs: 1785, approval: 1875, approvalQueue: 1970, execution: 2055,
+        automation: 2180, scheduleState: 2260, reminder: 2340,
+        browser: 2465, jobState: 2545, adapter: 2625, end: 2745
       };
       const wideNode = Math.min(224, width - 44);
       const narrowNode = Math.min(190, width - 70);
       const node = byId.get(id);
-      const compactX = id === &quot;reject&quot; ? width * 0.32 : id === &quot;validate&quot; ? width * 0.68 : centerX;
-      const compactWidth = id === &quot;reject&quot;
+      const leftIds = new Set([&quot;reject&quot;, &quot;markdownBundle&quot;, &quot;importBlocked&quot;]);
+      const rightIds = new Set([&quot;validate&quot;, &quot;memoryState&quot;, &quot;apiResult&quot;, &quot;importWrite&quot;, &quot;importResult&quot;]);
+      const compactX = leftIds.has(id) ? width * 0.28 : rightIds.has(id) ? width * 0.72 : centerX;
+      const compactWidth = leftIds.has(id) || rightIds.has(id)
         ? Math.min(132, width * 0.43)
-        : id === &quot;validate&quot;
-          ? Math.min(164, width * 0.5)
-          : node.type === &quot;decision&quot;
-            ? narrowNode
-            : wideNode;
+        : node.type === &quot;decision&quot;
+          ? narrowNode
+          : wideNode;
       return {
         x: compactX,
         y: compactY[id],
@@ -1552,7 +1408,14 @@ html&gt;body{padding:0}&lt;/style&gt;
         addPath(layer, `M ${branchX} ${target.y} H ${target.x - target.w / 2}`);
       });
 
-      connect(layer, positions, &quot;memory&quot;, &quot;memoryState&quot;);
+      connect(layer, positions, &quot;memory&quot;, &quot;memoryMode&quot;);
+      connect(layer, positions, &quot;memoryMode&quot;, &quot;memoryState&quot;, &quot;CRUD / recall&quot;);
+      connect(layer, positions, &quot;memoryMode&quot;, &quot;markdownBundle&quot;, &quot;Export&quot;);
+      connect(layer, positions, &quot;memoryMode&quot;, &quot;importValidate&quot;, &quot;Import&quot;);
+      connect(layer, positions, &quot;importValidate&quot;, &quot;importCheck&quot;);
+      connect(layer, positions, &quot;importCheck&quot;, &quot;importBlocked&quot;, &quot;Stale / invalid&quot;);
+      connect(layer, positions, &quot;importCheck&quot;, &quot;importWrite&quot;, &quot;Current&quot;);
+      connect(layer, positions, &quot;importWrite&quot;, &quot;importResult&quot;);
       connect(layer, positions, &quot;tasks&quot;, &quot;taskState&quot;);
       connect(layer, positions, &quot;runs&quot;, &quot;approval&quot;);
       connect(layer, positions, &quot;automation&quot;, &quot;scheduleState&quot;);
@@ -1568,7 +1431,7 @@ html&gt;body{padding:0}&lt;/style&gt;
       const end = positions.get(&quot;end&quot;);
       const laneWidth = width / 5;
       const mergeX = width - Math.max(8, laneWidth * 0.04);
-      const outputIds = [&quot;apiResult&quot;, &quot;uiResult&quot;, &quot;execution&quot;, &quot;reminder&quot;, &quot;adapter&quot;];
+      const outputIds = [&quot;apiResult&quot;, &quot;markdownBundle&quot;, &quot;importBlocked&quot;, &quot;importResult&quot;, &quot;uiResult&quot;, &quot;execution&quot;, &quot;reminder&quot;, &quot;adapter&quot;];
       const first = positions.get(outputIds[0]);
       addPath(layer, `M ${mergeX} ${first.y} V ${end.y}`, false, &quot;flow-trunk&quot;);
       outputIds.forEach((id) =&gt; {
@@ -1592,8 +1455,17 @@ html&gt;body{padding:0}&lt;/style&gt;
         const target = positions.get(id);
         addPath(layer, `M ${branchX} ${target.y} H ${target.x - target.w / 2}`);
       });
-      connect(layer, positions, &quot;memory&quot;, &quot;memoryState&quot;);
+      connect(layer, positions, &quot;memory&quot;, &quot;memoryMode&quot;);
+      connect(layer, positions, &quot;memoryMode&quot;, &quot;markdownBundle&quot;, &quot;Export&quot;);
+      connect(layer, positions, &quot;memoryMode&quot;, &quot;memoryState&quot;, &quot;CRUD&quot;);
+      const memoryMode = positions.get(&quot;memoryMode&quot;);
+      const importValidate = positions.get(&quot;importValidate&quot;);
+      addPath(layer, `M ${memoryMode.x} ${memoryMode.y + memoryMode.h / 2} V ${memoryMode.y + memoryMode.h / 2 + 18} H ${branchX} V ${importValidate.y} H ${importValidate.x - importValidate.w / 2}`);
       connect(layer, positions, &quot;memoryState&quot;, &quot;apiResult&quot;);
+      connect(layer, positions, &quot;importValidate&quot;, &quot;importCheck&quot;);
+      connect(layer, positions, &quot;importCheck&quot;, &quot;importBlocked&quot;, &quot;Stale&quot;);
+      connect(layer, positions, &quot;importCheck&quot;, &quot;importWrite&quot;, &quot;Current&quot;);
+      connect(layer, positions, &quot;importWrite&quot;, &quot;importResult&quot;);
       connect(layer, positions, &quot;tasks&quot;, &quot;taskState&quot;);
       connect(layer, positions, &quot;taskState&quot;, &quot;uiResult&quot;);
       connect(layer, positions, &quot;runs&quot;, &quot;approval&quot;);
@@ -1605,11 +1477,11 @@ html&gt;body{padding:0}&lt;/style&gt;
       connect(layer, positions, &quot;jobState&quot;, &quot;adapter&quot;);
       const end = positions.get(&quot;end&quot;);
       const mergeX = width - 14;
-      [&quot;apiResult&quot;, &quot;uiResult&quot;, &quot;execution&quot;, &quot;reminder&quot;, &quot;adapter&quot;].forEach((id) =&gt; {
+      [&quot;markdownBundle&quot;, &quot;apiResult&quot;, &quot;importBlocked&quot;, &quot;importResult&quot;, &quot;uiResult&quot;, &quot;execution&quot;, &quot;reminder&quot;, &quot;adapter&quot;].forEach((id) =&gt; {
         const output = positions.get(id);
         addPath(layer, `M ${output.x + output.w / 2} ${output.y} H ${mergeX}`, false, &quot;flow-trunk&quot;);
       });
-      addPath(layer, `M ${mergeX} ${positions.get(&quot;apiResult&quot;).y} V ${end.y} H ${end.x + end.w / 2}`);
+      addPath(layer, `M ${mergeX} ${positions.get(&quot;markdownBundle&quot;).y} V ${end.y} H ${end.x + end.w / 2}`);
     }
 
     function drawShape(layer, node, position) {
@@ -1652,7 +1524,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     function draw() {
       const width = Math.max(300, Math.round(root.getBoundingClientRect().width));
       const compact = width &lt; 620;
-      const height = compact ? 2260 : 970;
+      const height = compact ? 2800 : 1340;
       svg.replaceChildren();
       svg.setAttribute(&quot;viewBox&quot;, `0 0 ${width} ${height}`);
       svg.setAttribute(&quot;height&quot;, String(height));
@@ -1660,7 +1532,7 @@ html&gt;body{padding:0}&lt;/style&gt;
       const title = el(&quot;title&quot;, { id: &quot;cc-flow-svg-title&quot; });
       title.textContent = &quot;CC Assistant knowledge-base swimlane flowchart&quot;;
       const description = el(&quot;desc&quot;, { id: &quot;cc-flow-svg-desc&quot; });
-      description.textContent = &quot;Requests flow from interfaces through daemon authentication and validation, branch into five domain engines, persist durable state, and return live or external outcomes.&quot;;
+      description.textContent = &quot;Requests flow from interfaces through daemon authentication and validation, branch into five domain engines, and return controlled outcomes. The memory branch shows tag-aware canonical SQLite writes plus deterministic Markdown export and revision-safe import.&quot;;
       svg.append(title, description);
 
       const defs = el(&quot;defs&quot;);
@@ -1688,7 +1560,7 @@ html&gt;body{padding:0}&lt;/style&gt;
           laneLayer.append(laneText);
         });
       } else {
-        const stageYs = [[&quot;Interfaces&quot;, 26], [&quot;Daemon gateway&quot;, 190], [&quot;Domain engines&quot;, 500], [&quot;Durable state&quot;, 715], [&quot;Results / adapters&quot;, 795]];
+        const stageYs = [[&quot;Compact execution view&quot;, 26]];
         stageYs.forEach(([label, y]) =&gt; {
           const text = el(&quot;text&quot;, { x: 8, y, class: &quot;mobile-lane-label&quot; });
           text.textContent = label;
@@ -1711,9 +1583,6 @@ html&gt;body{padding:0}&lt;/style&gt;
     showDetail(&quot;memory&quot;);
   })();
 &lt;/script&gt;
-
-
-&lt;style id=&quot;codex-visualization-document-scrollbar&quot;&gt;html,body{scrollbar-width:none!important}html::-webkit-scrollbar,body::-webkit-scrollbar{display:none!important}&lt;/style&gt;
 
 &lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
@@ -1957,112 +1826,5 @@ html&gt;body{padding:0}&lt;/style&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 "></iframe>
-<script>(() => {
-  const frame = document.getElementById("codex-visualization");
-  if (!(frame instanceof HTMLIFrameElement)) {
-    return;
-  }
-  let viewportHeight = globalThis.innerHeight;
-
-  const channel = new MessageChannel();
-  channel.port1.addEventListener("message", (event) => {
-    const data = event.data;
-    if (typeof data !== "object" || data == null) {
-      return;
-    }
-    if (data.type === "height") {
-      const height = data.height;
-      if (
-        typeof height === "number" &&
-        Number.isFinite(height) &&
-        height >= 0 &&
-        height <= 10_000
-      ) {
-        frame.style.height = Math.ceil(height) + "px";
-      }
-      return;
-    }
-    if (data.type === "scroll-to") {
-      const top = data.top;
-      if (
-        typeof top === "number" &&
-        Number.isFinite(top) &&
-        top >= 0 &&
-        globalThis.navigator.userActivation?.isActive === true
-      ) {
-        globalThis.scrollTo({
-          top: Math.ceil(
-            globalThis.scrollY + frame.getBoundingClientRect().top + top,
-          ),
-        });
-      }
-      return;
-    }
-    if (data.type === "open-external") {
-      const rawHref = data.href;
-      if (typeof rawHref !== "string") {
-        return;
-      }
-      let href;
-      try {
-        const url = new URL(rawHref, document.baseURI);
-        if (url.protocol !== "https:") {
-          return;
-        }
-        href = url.href;
-      } catch {
-        return;
-      }
-      if (globalThis.navigator.userActivation?.isActive === true) {
-        const anchor = document.createElement("a");
-        anchor.href = href;
-        anchor.rel = "noopener noreferrer";
-        anchor.target = "_blank";
-        document.body.appendChild(anchor);
-        anchor.click();
-        anchor.remove();
-      }
-      return;
-    }
-    if (data.type === "follow-up") {
-      const prompt = data.prompt;
-      if (
-        typeof prompt !== "string" ||
-        globalThis.navigator.userActivation?.isActive !== true
-      ) {
-        return;
-      }
-      const title = data.title;
-      globalThis.prompt(typeof title === "string" ? title : prompt, prompt);
-    }
-  });
-  channel.port1.start();
-  const srcdoc = frame.dataset.srcdoc;
-  if (srcdoc == null) {
-    return;
-  }
-  globalThis.addEventListener("resize", () => {
-    const height = Number.parseFloat(frame.style.height);
-    if (!Number.isFinite(height) || height <= viewportHeight) {
-      frame.style.removeProperty("height");
-    }
-    viewportHeight = globalThis.innerHeight;
-    channel.port1.postMessage({ type: "measure" });
-  });
-  frame.addEventListener(
-    "load",
-    () => {
-      frame.contentWindow?.postMessage(
-        { type: "codex-visualization-initialize" },
-        "*",
-        [channel.port2],
-      );
-    },
-    { once: true },
-  );
-  frame.srcdoc = srcdoc;
-  delete frame.dataset.srcdoc;
-})();
-</script>
 </body>
 </html>

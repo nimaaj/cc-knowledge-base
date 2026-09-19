@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
-import { type Approval, type AssistantNotification, type ClaudeSession, type Memory, type MemoryDetail, type MemoryRevision, type Run, type Schedule, type Task, type TaskStatus } from "@cc-assistant/shared";
+import { type Approval, type AssistantNotification, type ClaudeSession, type Memory, type MemoryDetail, type MemoryRevision, type MemoryTag, type Run, type Schedule, type Task, type TaskStatus } from "@cc-assistant/shared";
 import {
   AuthenticationError,
   cancelRun,
@@ -9,6 +9,7 @@ import {
   getConfig,
   getMemory,
   listMemoryRevisions,
+  listMemoryTags,
   listMemories,
   listNotifications,
   listPendingApprovals,
@@ -278,8 +279,8 @@ function NotificationInbox({ notifications, onChange }: { notifications: Assista
 }
 
 function AssistantTools({
-  schedules, memories, defaultCwd, onChange,
-}: { schedules: Schedule[]; memories: Memory[]; defaultCwd: string; onChange: () => void }): React.JSX.Element {
+  schedules, memories, memoryTags, defaultCwd, onChange,
+}: { schedules: Schedule[]; memories: Memory[]; memoryTags: MemoryTag[]; defaultCwd: string; onChange: () => void }): React.JSX.Element {
   const [reminderTitle, setReminderTitle] = useState("");
   const [reminderAt, setReminderAt] = useState("");
   const [agentTitle, setAgentTitle] = useState("");
@@ -287,6 +288,7 @@ function AssistantTools({
   const [cwd, setCwd] = useState(defaultCwd);
   const [memoryTitle, setMemoryTitle] = useState("");
   const [memoryBody, setMemoryBody] = useState("");
+  const [memoryTagInput, setMemoryTagInput] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => { if (!cwd && defaultCwd) setCwd(defaultCwd); }, [cwd, defaultCwd]);
@@ -302,7 +304,14 @@ function AssistantTools({
   };
   const memorySubmit = async (event: FormEvent) => {
     event.preventDefault(); setBusy(true);
-    try { await createMemory({ title: memoryTitle, body: memoryBody, tags: [] }); setMemoryTitle(""); setMemoryBody(""); onChange(); }
+    try {
+      await createMemory({
+        title: memoryTitle,
+        body: memoryBody,
+        tags: memoryTagInput.split(",").map((item) => item.trim()).filter(Boolean),
+      });
+      setMemoryTitle(""); setMemoryBody(""); setMemoryTagInput(""); onChange();
+    }
     finally { setBusy(false); }
   };
   return <section className="tools-grid">
@@ -313,8 +322,9 @@ function AssistantTools({
       <form onSubmit={(event) => void agentSubmit(event)}><input placeholder="Run title" value={agentTitle} onChange={(event) => setAgentTitle(event.target.value)} /><textarea placeholder="What should Claude accomplish?" value={agentPrompt} onChange={(event) => setAgentPrompt(event.target.value)} /><input placeholder="Working directory" value={cwd} onChange={(event) => setCwd(event.target.value)} /><button className="primary" disabled={busy || !agentTitle || !agentPrompt || !cwd}>Start run</button></form>
     </details>
     <details><summary>Add memory <span>{memories.length} stored</span></summary>
-      <form onSubmit={(event) => void memorySubmit(event)}><input placeholder="Memory title" value={memoryTitle} onChange={(event) => setMemoryTitle(event.target.value)} /><textarea placeholder="What should the assistant remember?" value={memoryBody} onChange={(event) => setMemoryBody(event.target.value)} /><button className="primary" disabled={busy || !memoryTitle || !memoryBody}>Remember</button></form>
+      <form onSubmit={(event) => void memorySubmit(event)}><input placeholder="Memory title" value={memoryTitle} onChange={(event) => setMemoryTitle(event.target.value)} /><textarea placeholder="What should the assistant remember?" value={memoryBody} onChange={(event) => setMemoryBody(event.target.value)} /><input placeholder="Tags, comma separated" list="memory-tag-options" value={memoryTagInput} onChange={(event) => setMemoryTagInput(event.target.value)} /><button className="primary" disabled={busy || !memoryTitle || !memoryBody}>Remember</button></form>
       <div className="memory-peek">{memories.slice(0, 3).map((memory) => <span key={memory.id}>{memory.title}</span>)}</div>
+      <datalist id="memory-tag-options">{memoryTags.map(({ tag }) => <option value={tag} key={tag} />)}</datalist>
     </details>
   </section>;
 }
@@ -335,8 +345,9 @@ function WikiBody({ body, onNavigate }: { body: string; onNavigate: (slug: strin
   return <div className="memory-body">{parts}</div>;
 }
 
-function MemoryWorkspace({ memories, onChange }: { memories: Memory[]; onChange: () => void }): React.JSX.Element {
+function MemoryWorkspace({ memories, memoryTags, onChange }: { memories: Memory[]; memoryTags: MemoryTag[]; onChange: () => void }): React.JSX.Element {
   const [query, setQuery] = useState("");
+  const [tagFilter, setTagFilter] = useState("");
   const [results, setResults] = useState(memories);
   const [detail, setDetail] = useState<MemoryDetail>();
   const [history, setHistory] = useState<MemoryRevision[]>([]);
@@ -346,7 +357,11 @@ function MemoryWorkspace({ memories, onChange }: { memories: Memory[]; onChange:
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string>();
 
-  useEffect(() => { if (!query) setResults(memories.filter((memory) => includeArchived || memory.status === "active")); }, [memories, query, includeArchived]);
+  useEffect(() => {
+    if (!query) setResults(memories.filter((memory) =>
+      (includeArchived || memory.status === "active") && (!tagFilter || memory.tags.includes(tagFilter)),
+    ));
+  }, [memories, query, tagFilter, includeArchived]);
 
   const open = async (idOrSlug: string): Promise<void> => {
     setBusy(true); setError(undefined);
@@ -365,8 +380,15 @@ function MemoryWorkspace({ memories, onChange }: { memories: Memory[]; onChange:
 
   const search = async (event: FormEvent): Promise<void> => {
     event.preventDefault(); setBusy(true); setError(undefined);
-    try { setResults(await listMemories(query, includeArchived)); }
+    try { setResults(await listMemories({ query, includeArchived, ...(tagFilter ? { tag: tagFilter } : {}) })); }
     catch (caught) { setError(caught instanceof Error ? caught.message : "Search failed"); }
+    finally { setBusy(false); }
+  };
+
+  const selectTag = async (tag: string): Promise<void> => {
+    setTagFilter(tag); setQuery(""); setBusy(true); setError(undefined);
+    try { setResults(await listMemories({ includeArchived, tag })); }
+    catch (caught) { setError(caught instanceof Error ? caught.message : "Tag filter failed"); }
     finally { setBusy(false); }
   };
 
@@ -407,6 +429,10 @@ function MemoryWorkspace({ memories, onChange }: { memories: Memory[]; onChange:
     <div className="section-heading"><div><p className="eyebrow">Local knowledge</p><h2>Memory wiki</h2></div><span>{memories.length} active pages</span></div>
     <form className="memory-search" onSubmit={(event) => void search(event)}>
       <input aria-label="Search memories" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search titles, aliases, summaries, body, and tags" />
+      <select aria-label="Filter memories by tag" value={tagFilter} onChange={(event) => setTagFilter(event.target.value)}>
+        <option value="">All tags</option>
+        {memoryTags.map(({ tag, count }) => <option value={tag} key={tag}>{tag} ({count})</option>)}
+      </select>
       <label><input type="checkbox" checked={includeArchived} onChange={(event) => setIncludeArchived(event.target.checked)} /> Archived</label>
       <button disabled={busy}>Search</button>
     </form>
@@ -414,7 +440,7 @@ function MemoryWorkspace({ memories, onChange }: { memories: Memory[]; onChange:
     <div className="memory-layout">
       <nav className="memory-results" aria-label="Memory pages">
         {results.map((memory) => <button className={detail?.memory.id === memory.id ? "selected" : ""} key={memory.id} onClick={() => void open(memory.id)}>
-          <strong>{memory.title}</strong><span>{memory.kind} · rev {memory.revision}{memory.status === "archived" ? " · archived" : ""}</span>
+          <strong>{memory.title}</strong><span>{memory.kind} · rev {memory.revision}{memory.status === "archived" ? " · archived" : ""}</span>{memory.tags.length ? <small>{memory.tags.join(" · ")}</small> : null}
         </button>)}
         {results.length === 0 ? <p className="empty">No matching pages</p> : null}
       </nav>
@@ -431,7 +457,7 @@ function MemoryWorkspace({ memories, onChange }: { memories: Memory[]; onChange:
           <div className="memory-page-heading"><div><p className="eyebrow">{detail.memory.kind} · {detail.memory.slug}</p><h3>{detail.memory.title}</h3></div><span>rev {detail.memory.revision}</span></div>
           {detail.memory.summary ? <p className="memory-summary">{detail.memory.summary}</p> : null}
           <WikiBody body={detail.memory.body} onNavigate={(slug) => void open(slug)} />
-          <div className="memory-tags">{detail.memory.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
+          <div className="memory-tags">{detail.memory.tags.map((tag) => <button key={tag} onClick={() => void selectTag(tag)}>{tag}</button>)}</div>
           <div className="memory-connections">
             <div><strong>Links</strong>{detail.outgoingLinks.map((link) => <button key={`${link.slug}-${link.label}`} className={!link.resolvedMemoryId ? "unresolved" : ""} onClick={() => void open(link.slug)}>{link.label}{!link.resolvedMemoryId ? " ?" : ""}</button>)}</div>
             <div><strong>Backlinks</strong>{detail.backlinks.map((link) => <button key={link.id} onClick={() => void open(link.id)}>{link.title}</button>)}</div>
@@ -453,14 +479,15 @@ export default function App(): React.JSX.Element {
   const [notifications, setNotifications] = useState<AssistantNotification[]>([]);
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [memories, setMemories] = useState<Memory[]>([]);
+  const [memoryTags, setMemoryTags] = useState<MemoryTag[]>([]);
   const [defaultCwd, setDefaultCwd] = useState("");
   const [authenticated, setAuthenticated] = useState<boolean>();
   const [error, setError] = useState<string>();
 
   const refresh = useCallback(async (): Promise<void> => {
     try {
-      const [nextTasks, nextSessions, nextRuns, nextApprovals, nextNotifications, nextSchedules, nextMemories, config] = await Promise.all([
-        listTasks(), listSessions(), listRuns(), listPendingApprovals(), listNotifications(), listSchedules(), listMemories(), getConfig(),
+      const [nextTasks, nextSessions, nextRuns, nextApprovals, nextNotifications, nextSchedules, nextMemories, nextMemoryTags, config] = await Promise.all([
+        listTasks(), listSessions(), listRuns(), listPendingApprovals(), listNotifications(), listSchedules(), listMemories(), listMemoryTags(), getConfig(),
       ]);
       setTasks(nextTasks);
       setSessions(nextSessions);
@@ -469,6 +496,7 @@ export default function App(): React.JSX.Element {
       setNotifications(nextNotifications);
       setSchedules(nextSchedules);
       setMemories(nextMemories);
+      setMemoryTags(nextMemoryTags);
       setDefaultCwd(config.allowedRoots[0] ?? "");
       setAuthenticated(true);
       setError(undefined);
@@ -525,9 +553,9 @@ export default function App(): React.JSX.Element {
       {error ? <p className="error banner">{error}</p> : null}
       <NotificationInbox notifications={notifications} onChange={() => void refresh()} />
 
-      <AssistantTools schedules={schedules} memories={memories} defaultCwd={defaultCwd} onChange={() => void refresh()} />
+      <AssistantTools schedules={schedules} memories={memories} memoryTags={memoryTags} defaultCwd={defaultCwd} onChange={() => void refresh()} />
 
-      <MemoryWorkspace memories={memories} onChange={() => void refresh()} />
+      <MemoryWorkspace memories={memories} memoryTags={memoryTags} onChange={() => void refresh()} />
 
       <SessionStrip sessions={sessions} />
       <ExecutionPanel runs={runs} approvals={approvals} onChange={() => void refresh()} />

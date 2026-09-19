@@ -81,6 +81,9 @@ pnpm cca memory list --query "canary release"
 pnpm cca memory get project-orchid
 pnpm cca memory update project-orchid --revision 1 --body "Updated context"
 pnpm cca memory history project-orchid
+pnpm cca memory export --output ./memory-export --all
+pnpm cca memory import ./memory-export
+pnpm cca memory import ./memory-export --apply
 pnpm cca schedule create "Stand up" --trigger-kind interval --trigger '{"everyMs":3600000}' --action-kind reminder --action '{"title":"Stand up","body":"Move for five minutes"}'
 pnpm cca browser calendar list
 pnpm cca browser slack send general "Draft status is ready"
@@ -101,6 +104,10 @@ Memory pages are Markdown records stored by the daemon in SQLite. They support n
 The daemon generates a slug from the title when one is omitted. If that slug already exists it appends the first available numeric suffix (`project-orchid-2`, then `project-orchid-3`, and so on). Slugs do not change during edits, so wiki links remain stable. Links may point to pages that do not exist yet; they resolve automatically when the target slug is created.
 
 Search is entirely local and uses SQLite FTS5 across title, aliases, summary, body, and tags. User queries are tokenized and quoted before reaching FTS, so punctuation or quote characters cannot become raw FTS syntax. Archived pages are removed from the active search index but remain readable through direct lookup and `--all` listings.
+
+Tags are normalized, deduplicated, searchable, and available as exact filters across the API, CLI, and dashboard. Tags can describe subject, scope, origin, or lifecycle—for example `system settings`, `project x`, `user preferences`, `communicated style`, `completed projects`, `slack conversations`, and `meeting notes`.
+
+SQLite remains the canonical store. `cca memory export` produces deterministic, editable Markdown files plus a JSON manifest. `cca memory import` performs a dry-run by default; `--apply` writes only validated changes whose exported revision still matches the canonical page. Malformed files and stale revisions block the import instead of partially overwriting newer memory.
 
 Every edit requires the page's current positive `revision`. A stale edit receives HTTP 409 instead of overwriting another actor's changes. See [`docs/memory.md`](./docs/memory.md) for the model and API.
 
@@ -138,6 +145,8 @@ packages/client   Authenticated daemon client
 packages/shared   Shared schemas and domain types
 docs              Architecture decisions and implementation roadmap
 ```
+
+Open the [interactive architecture flowchart](./docs/cc-knowledge-base-swimlane-flow.html) for the request lifecycle, domain branches, canonical memory state, tag handling, and Markdown export/import paths. Select any node to expand its behavior and source references.
 
 ## Security properties
 

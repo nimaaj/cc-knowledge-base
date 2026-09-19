@@ -9,6 +9,7 @@ import {
   MemoryLinkSchema,
   MemoryRevisionSchema,
   MemorySchema,
+  MemoryTagSchema,
   UpdateMemorySchema,
   type AssistantEvent,
   type CreateMemoryInput,
@@ -18,6 +19,7 @@ import {
   type MemoryLink,
   type MemoryRevision,
   type MemoryStatus,
+  type MemoryTag,
   type UpdateMemoryInput,
 } from "@cc-assistant/shared";
 
@@ -39,6 +41,8 @@ export interface MemoryProvider {
   ingest(input: unknown, source?: AuditSource): MemoryDetail;
   get(idOrSlug: string): MemoryDetail | undefined;
   list(options?: MemoryListOptions): Memory[];
+  exportAll(includeArchived?: boolean): Memory[];
+  listTags(includeArchived?: boolean): MemoryTag[];
   update(idOrSlug: string, input: UpdateMemoryInput, source?: AuditSource): MemoryDetail;
   history(idOrSlug: string): MemoryRevision[];
   revision(idOrSlug: string, revision: number): MemoryRevision | undefined;
@@ -329,6 +333,20 @@ export class SqliteMemoryRepository implements MemoryProvider {
     }
     return (this.#db.prepare(`SELECT m.* FROM memories m WHERE 1=1${where} ORDER BY m.updated_at DESC LIMIT ?`)
       .all(...parameters, limit) as Row[]).map(mapMemory);
+  }
+
+  listTags(includeArchived = false): MemoryTag[] {
+    const statusClause = includeArchived ? "" : "AND m.status='active'";
+    return (this.#db.prepare(`SELECT lower(trim(j.value)) AS tag, count(*) AS count
+      FROM memories m, json_each(m.tags_json) j WHERE trim(j.value) <> '' ${statusClause}
+      GROUP BY lower(trim(j.value)) ORDER BY count DESC, tag COLLATE NOCASE`)
+      .all() as Row[]).map((row) => MemoryTagSchema.parse(row));
+  }
+
+  exportAll(includeArchived = false): Memory[] {
+    const where = includeArchived ? "" : "WHERE status='active'";
+    return (this.#db.prepare(`SELECT * FROM memories ${where} ORDER BY slug COLLATE NOCASE`).all() as Row[])
+      .map(mapMemory);
   }
 
   update(idOrSlug: string, input: UpdateMemoryInput, source: AuditSource = "api"): MemoryDetail {

@@ -1,10 +1,12 @@
 #!/usr/bin/env node
-import { readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { dirname, relative, resolve, sep } from "node:path";
 import { parseArgs } from "node:util";
 import { DaemonClient } from "@cc-assistant/client";
 import {
   ApprovalListSchema,
   ClaudeSessionListSchema,
+  MemoryMarkdownExportSchema,
   RunListSchema,
   RunSchema,
   TaskListSchema,
@@ -96,6 +98,8 @@ Usage:
                          [--tags <a,b>] [--aliases <a,b>] [--project <name>]
   pnpm cca memory archive <id-or-slug> --revision <number>
   pnpm cca memory history <id-or-slug> [--json]
+  pnpm cca memory export --output <directory> [--all]
+  pnpm cca memory import <file-or-directory> [--apply]
   pnpm cca schedule list [--json]
   pnpm cca schedule create <name> --trigger-kind <kind> --trigger <json>
                            --action-kind <kind> --action <json>
@@ -142,6 +146,25 @@ function statusOption(value: string | undefined): TaskStatus | undefined {
     throw new Error(`status must be one of: ${taskStatuses.join(", ")}`);
   }
   return value as TaskStatus;
+}
+
+function markdownFiles(inputPath: string): Array<{ path: string; content: string }> {
+  const root = resolve(inputPath);
+  if (!statSync(root).isDirectory()) {
+    return [{ path: root.split(sep).at(-1) ?? "memory.md", content: readFileSync(root, "utf8") }];
+  }
+  const files: Array<{ path: string; content: string }> = [];
+  const visit = (directory: string): void => {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      const absolute = resolve(directory, entry.name);
+      if (entry.isDirectory()) visit(absolute);
+      else if (entry.isFile() && entry.name.toLocaleLowerCase().endsWith(".md")) {
+        files.push({ path: relative(root, absolute).split(sep).join("/"), content: readFileSync(absolute, "utf8") });
+      }
+    }
+  };
+  visit(root);
+  return files.sort((left, right) => left.path.localeCompare(right.path));
 }
 
 async function taskCommand(args: string[]): Promise<void> {
@@ -509,6 +532,39 @@ async function memoryCommand(args: string[]): Promise<void> {
   if (action === "history") {
     const id = required(args[0], "memory ID or slug");
     return printJson(await client.request(`/api/memories/${encodeURIComponent(id)}/revisions`));
+  }
+  if (action === "export") {
+    const parsed = parseArgs({ args, options: {
+      output: { type: "string" }, all: { type: "boolean" },
+    }, strict: true });
+    const outputRoot = resolve(required(parsed.values.output, "--output"));
+    const suffix = parsed.values.all ? "?includeArchived=true" : "";
+    const bundle = MemoryMarkdownExportSchema.parse(await client.request(`/api/memories/export${suffix}`));
+    mkdirSync(outputRoot, { recursive: true });
+    for (const file of bundle.files) {
+      const target = resolve(outputRoot, file.path);
+      const targetRelative = relative(outputRoot, target);
+      if (targetRelative.startsWith("..") || targetRelative === "" || targetRelative.includes(`..${sep}`)) {
+        throw new Error(`Unsafe export path: ${file.path}`);
+      }
+      mkdirSync(dirname(target), { recursive: true });
+      writeFileSync(target, file.content, "utf8");
+    }
+    writeFileSync(resolve(outputRoot, "manifest.json"), `${JSON.stringify({
+      formatVersion: bundle.formatVersion,
+      exportedAt: bundle.exportedAt,
+      files: bundle.files.map((file) => ({ path: file.path })),
+    }, null, 2)}\n`, "utf8");
+    return printJson({ output: outputRoot, exportedAt: bundle.exportedAt, files: bundle.files.length });
+  }
+  if (action === "import") {
+    const parsed = parseArgs({ args, allowPositionals: true, options: {
+      apply: { type: "boolean" },
+    }, strict: true });
+    const files = markdownFiles(required(parsed.positionals[0], "Markdown file or export directory"));
+    if (files.length === 0) throw new Error("No Markdown files were found");
+    const path = parsed.values.apply ? "/api/memories/import" : "/api/memories/import/preview";
+    return printJson(await client.request(path, { method: "POST", body: JSON.stringify({ files }) }));
   }
   help();
 }
