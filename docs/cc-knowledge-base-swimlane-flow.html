@@ -1,0 +1,2068 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>cc-knowledge-base-swimlane-flow.html</title>
+<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;max-width:736px;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
+</head>
+<body>
+<iframe id="codex-visualization" sandbox="allow-scripts" scrolling="no" referrerpolicy="no-referrer" title="cc-knowledge-base-swimlane-flow.html" data-srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en-US&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'&quot;&gt;
+&lt;title&gt;cc-knowledge-base-swimlane-flow.html&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;script&gt;(() =&gt; {
+  const root = document.documentElement;
+  const mediaQuery = globalThis.matchMedia(&quot;(prefers-color-scheme: dark)&quot;);
+  const apply = Reflect.apply;
+  const isArray = Array.isArray;
+  const parentWindow = globalThis.parent;
+  /**
+   * @param {object} prototype
+   * @param {string} property
+   */
+  const getPrototypeGetter = (prototype, property) =&gt; {
+    // oxlint-disable-next-line typescript/unbound-method -- invoked through captured Reflect.apply
+    const getter = Object.getOwnPropertyDescriptor(prototype, property)?.get;
+    if (getter == null) {
+      throw new Error(`Missing ${property} getter`);
+    }
+    return getter;
+  };
+  const getMessageData = getPrototypeGetter(MessageEvent.prototype, &quot;data&quot;);
+  const getMessagePorts = getPrototypeGetter(MessageEvent.prototype, &quot;ports&quot;);
+  const getMessageSource = getPrototypeGetter(MessageEvent.prototype, &quot;source&quot;);
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const addHostMessageListener = MessagePort.prototype.addEventListener;
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const postHostMessage = MessagePort.prototype.postMessage;
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const startHostPort = MessagePort.prototype.start;
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const stopMessagePropagation = Event.prototype.stopImmediatePropagation;
+  /** @type {MessagePort | null} */
+  let hostPort = null;
+  const postToHost = (type, payload) =&gt; {
+    if (hostPort != null) {
+      apply(postHostMessage, hostPort, [{ type, ...payload }]);
+    }
+  };
+  const openExternal = ({ href }) =&gt; {
+    if (globalThis.navigator.userActivation?.isActive === true) {
+      postToHost(&quot;open-external&quot;, { href });
+    }
+  };
+  const sendFollowUpMessage = ({ context, prompt, title }) =&gt; {
+    if (globalThis.navigator.userActivation?.isActive === true) {
+      postToHost(&quot;follow-up&quot;, { context, prompt, title });
+    }
+    return Promise.resolve();
+  };
+  const syncTheme = () =&gt; {
+    const theme = mediaQuery.matches ? &quot;dark&quot; : &quot;light&quot;;
+    root.dataset.theme = theme;
+    globalThis.openai = {
+      ...globalThis.openai,
+      openExternal,
+      sendFollowUpMessage,
+      theme,
+      visualizationStyleVariables: {},
+      visualizationTheme: theme,
+    };
+    globalThis.dispatchEvent(
+      new CustomEvent(&quot;openai:set_globals&quot;, {
+        detail: { globals: globalThis.openai },
+      }),
+    );
+  };
+  const sendHeight = () =&gt; {
+    postToHost(&quot;height&quot;, {
+      height: Math.ceil(
+        Math.max(
+          document.body.scrollHeight,
+          document.body.getBoundingClientRect().height,
+        ),
+      ),
+    });
+  };
+
+  globalThis.addEventListener(
+    &quot;message&quot;,
+    (event) =&gt; {
+      const data = apply(getMessageData, event, []);
+      const ports = apply(getMessagePorts, event, []);
+      const source = apply(getMessageSource, event, []);
+      if (
+        source !== parentWindow ||
+        typeof data !== &quot;object&quot; ||
+        data == null ||
+        data.type !== &quot;codex-visualization-initialize&quot; ||
+        !isArray(ports) ||
+        ports.length !== 1
+      ) {
+        return;
+      }
+      apply(stopMessagePropagation, event, []);
+      const nextHostPort = ports[0];
+      try {
+        apply(addHostMessageListener, nextHostPort, [
+          &quot;message&quot;,
+          (event) =&gt; {
+            const data = apply(getMessageData, event, []);
+            if (typeof data === &quot;object&quot; &amp;&amp; data?.type === &quot;measure&quot;) {
+              sendHeight();
+            }
+          },
+        ]);
+        apply(startHostPort, nextHostPort, []);
+      } catch {
+        return;
+      }
+      hostPort = nextHostPort;
+      sendHeight();
+    },
+    { capture: true },
+  );
+  document.currentScript?.remove();
+  mediaQuery.addEventListener(&quot;change&quot;, syncTheme);
+  globalThis.addEventListener(&quot;click&quot;, (event) =&gt; {
+    if (event.defaultPrevented) {
+      return;
+    }
+    let element = null;
+    if (event.target instanceof globalThis.Element) {
+      element = event.target;
+    } else if (event.target instanceof globalThis.Node) {
+      element = event.target.parentElement;
+    }
+    const link = element?.closest(&quot;a[href]&quot;);
+    const href = link?.getAttribute(&quot;href&quot;);
+    if (href == null) {
+      return;
+    }
+    if (href.startsWith(&quot;#&quot;)) {
+      let id;
+      try {
+        id = decodeURIComponent(href.slice(1));
+      } catch {
+        return;
+      }
+      const target = id.length === 0 ? root : document.getElementById(id);
+      if (
+        target == null ||
+        globalThis.navigator.userActivation?.isActive !== true
+      ) {
+        return;
+      }
+      event.preventDefault();
+      postToHost(&quot;scroll-to&quot;, {
+        top: target.getBoundingClientRect().top + globalThis.scrollY,
+      });
+      return;
+    }
+    event.preventDefault();
+    openExternal({ href });
+  });
+  new ResizeObserver(sendHeight).observe(document.body);
+  syncTheme();
+})();
+&lt;/script&gt;
+&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 14px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, &quot;Segoe UI&quot;, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --radius: var(--border-radius-lg, 12.5px);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 17'%3E%3Cpath d='M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z'/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: 5px;
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium, 500);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table-responsive &gt; .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead th {
+  padding-block: 8px;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 6px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align=&quot;right&quot;]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align=&quot;center&quot;]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: superellipse(1.5);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget &gt; :not(.card) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: superellipse(1.5);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+    [aria-pressed=&quot;true&quot;],
+    [aria-selected=&quot;true&quot;],
+    .is-selected
+  ) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: 16px !important;
+  height: 16px !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}&lt;/style&gt;
+&lt;script&gt;
+(() =&gt; {
+  const root = document.documentElement;
+  const initialGlobals =
+    globalThis.__codexVisualizationInitialGlobals ?? globalThis.openai;
+  delete globalThis.__codexVisualizationInitialGlobals;
+  let appliedProperties = [];
+
+  const applyHostStyleVariables = (styleVariables) =&gt; {
+    if (styleVariables == null || typeof styleVariables !== &quot;object&quot;) {
+      return;
+    }
+    for (const property of appliedProperties) {
+      root.style.removeProperty(property);
+    }
+    appliedProperties = [];
+    for (const [property, value] of Object.entries(styleVariables)) {
+      if (property.startsWith(&quot;--&quot;) &amp;&amp; typeof value === &quot;string&quot;) {
+        root.style.setProperty(property, value);
+        appliedProperties.push(property);
+      }
+    }
+  };
+
+  const syncHostStyles = (globals) =&gt; {
+    applyHostStyleVariables(globals?.visualizationStyleVariables);
+  };
+
+  syncHostStyles(initialGlobals);
+  globalThis.addEventListener(&quot;openai:set_globals&quot;, (event) =&gt; {
+    syncHostStyles(event.detail?.globals);
+  });
+})();
+&lt;/script&gt;
+
+&lt;div id=&quot;cc-kb-swimlane&quot; aria-labelledby=&quot;cc-kb-swimlane-title&quot;&gt;
+  &lt;h1 id=&quot;cc-kb-swimlane-title&quot;&gt;CC Assistant request lifecycle&lt;/h1&gt;
+  &lt;div class=&quot;viz-row flow-key&quot; aria-label=&quot;Flowchart legend&quot;&gt;
+    &lt;span&gt;&lt;span class=&quot;key-shape key-start&quot;&gt;&lt;/span&gt; start / end&lt;/span&gt;
+    &lt;span&gt;&lt;span class=&quot;key-shape key-process&quot;&gt;&lt;/span&gt; process&lt;/span&gt;
+    &lt;span&gt;&lt;span class=&quot;key-shape key-decision&quot;&gt;&lt;/span&gt; decision&lt;/span&gt;
+    &lt;span class=&quot;text-muted&quot;&gt;Select a node to expand its implementation details.&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;flow-canvas&quot;&gt;
+    &lt;svg class=&quot;flow-svg&quot; role=&quot;img&quot; aria-labelledby=&quot;cc-flow-svg-title cc-flow-svg-desc&quot;&gt;&lt;/svg&gt;
+  &lt;/div&gt;
+  &lt;section class=&quot;card node-detail&quot; hidden aria-live=&quot;polite&quot;&gt;
+    &lt;div class=&quot;detail-heading&quot;&gt;
+      &lt;div&gt;
+        &lt;span class=&quot;viz-badge detail-lane&quot;&gt;&lt;/span&gt;
+        &lt;h2 class=&quot;detail-title&quot;&gt;&lt;/h2&gt;
+      &lt;/div&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn btn-ghost detail-close&quot; aria-label=&quot;Collapse node details&quot;&gt;Collapse&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;detail-summary&quot;&gt;&lt;/div&gt;
+    &lt;ol class=&quot;detail-steps&quot;&gt;&lt;/ol&gt;
+    &lt;div class=&quot;detail-source text-muted&quot;&gt;&lt;/div&gt;
+  &lt;/section&gt;
+  &lt;div class=&quot;sr-only&quot;&gt;A swimlane flowchart showing requests entering through MCP, CLI, web, hooks, or edge adapters; passing authentication and validation; branching into knowledge-base functions; persisting state; and returning live or external results.&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+  #cc-kb-swimlane {
+    width: 100%;
+    color: var(--foreground);
+  }
+  #cc-kb-swimlane h1 {
+    margin: 0 0 8px;
+  }
+  #cc-kb-swimlane .flow-key {
+    margin-bottom: 12px;
+    gap: 8px 16px;
+  }
+  #cc-kb-swimlane .flow-key &gt; span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  #cc-kb-swimlane .key-shape {
+    display: inline-block;
+    width: 18px;
+    height: 12px;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--viz-series-1) 18%, transparent);
+  }
+  #cc-kb-swimlane .key-start {
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--green) 28%, transparent);
+  }
+  #cc-kb-swimlane .key-decision {
+    width: 13px;
+    height: 13px;
+    transform: rotate(45deg);
+    background: color-mix(in srgb, var(--orange) 28%, transparent);
+  }
+  #cc-kb-swimlane .flow-canvas {
+    width: 100%;
+  }
+  #cc-kb-swimlane .flow-svg {
+    display: block;
+    width: 100%;
+    color: var(--foreground);
+  }
+  #cc-kb-swimlane .org-header,
+  #cc-kb-swimlane .lane-header {
+    fill: color-mix(in srgb, var(--muted) 62%, transparent);
+    stroke: var(--border);
+  }
+  #cc-kb-swimlane .lane-body {
+    fill: transparent;
+    stroke: var(--border);
+  }
+  #cc-kb-swimlane .lane-alt {
+    fill: color-mix(in srgb, var(--muted) 18%, transparent);
+  }
+  #cc-kb-swimlane .lane-label,
+  #cc-kb-swimlane .org-label,
+  #cc-kb-swimlane .edge-label,
+  #cc-kb-swimlane .mobile-lane-label {
+    fill: var(--foreground);
+    font-weight: 500;
+  }
+  #cc-kb-swimlane .edge-label,
+  #cc-kb-swimlane .mobile-lane-label {
+    fill: var(--muted-foreground);
+    font-weight: 400;
+  }
+  #cc-kb-swimlane .flow-edge,
+  #cc-kb-swimlane .flow-trunk {
+    fill: none;
+    stroke: var(--muted-foreground);
+    stroke-width: 1.4;
+  }
+  #cc-kb-swimlane .node-shape {
+    stroke: var(--border);
+    stroke-width: 1.25;
+  }
+  #cc-kb-swimlane .node-shape.is-selected {
+    stroke: var(--ring);
+    stroke-width: 2.5;
+  }
+  #cc-kb-swimlane .shape-start {
+    fill: color-mix(in srgb, var(--green) 28%, transparent);
+  }
+  #cc-kb-swimlane .shape-process {
+    fill: color-mix(in srgb, var(--viz-series-1) 17%, transparent);
+  }
+  #cc-kb-swimlane .shape-state {
+    fill: color-mix(in srgb, var(--viz-series-3) 17%, transparent);
+  }
+  #cc-kb-swimlane .shape-output {
+    fill: color-mix(in srgb, var(--viz-series-4) 17%, transparent);
+  }
+  #cc-kb-swimlane .shape-decision {
+    fill: color-mix(in srgb, var(--orange) 28%, transparent);
+  }
+  #cc-kb-swimlane .shape-end,
+  #cc-kb-swimlane .shape-reject {
+    fill: color-mix(in srgb, var(--red) 25%, transparent);
+  }
+  #cc-kb-swimlane .node-label-shell {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+  }
+  #cc-kb-swimlane .node-label-shell .btn {
+    white-space: normal;
+  }
+  #cc-kb-swimlane .node-detail {
+    margin-top: 12px;
+  }
+  #cc-kb-swimlane .detail-heading {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  #cc-kb-swimlane .detail-heading h2 {
+    margin: 6px 0 4px;
+  }
+  #cc-kb-swimlane .detail-summary {
+    margin-bottom: 8px;
+  }
+  #cc-kb-swimlane .detail-steps {
+    margin: 0 0 8px;
+    padding-left: 22px;
+  }
+  #cc-kb-swimlane .detail-steps li {
+    margin-bottom: 4px;
+  }
+  #cc-kb-swimlane .detail-source {
+    overflow-wrap: anywhere;
+  }
+&lt;/style&gt;
+
+&lt;script&gt;
+  (() =&gt; {
+    const root = document.getElementById(&quot;cc-kb-swimlane&quot;);
+    if (!root) return;
+    const svg = root.querySelector(&quot;.flow-svg&quot;);
+    const detail = root.querySelector(&quot;.node-detail&quot;);
+    const detailLane = root.querySelector(&quot;.detail-lane&quot;);
+    const detailTitle = root.querySelector(&quot;.detail-title&quot;);
+    const detailSummary = root.querySelector(&quot;.detail-summary&quot;);
+    const detailSteps = root.querySelector(&quot;.detail-steps&quot;);
+    const detailSource = root.querySelector(&quot;.detail-source&quot;);
+    const closeButton = root.querySelector(&quot;.detail-close&quot;);
+    if (!svg || !detail || !detailLane || !detailTitle || !detailSummary || !detailSteps || !detailSource || !closeButton) return;
+
+    const lanes = [&quot;Interfaces&quot;, &quot;Daemon gateway&quot;, &quot;Domain engines&quot;, &quot;Durable state&quot;, &quot;Results / adapters&quot;];
+    const nodes = [
+      {
+        id: &quot;start&quot;, lane: 0, type: &quot;start&quot;, label: &quot;Request or trigger&quot;,
+        summary: &quot;A person, Claude Code session, timer, or observed notification starts a request.&quot;,
+        steps: [&quot;A user invokes a tool or UI action.&quot;, &quot;A hook, schedule, or edge adapter can also originate work.&quot;],
+        source: &quot;apps/mcp · apps/cli · apps/web · scripts/claude-hook.mjs · browser-extension · native/macos&quot;
+      },
+      {
+        id: &quot;entry&quot;, lane: 0, type: &quot;process&quot;, label: &quot;MCP · CLI · Web · Hooks&quot;,
+        summary: &quot;Every interface talks to the same localhost daemon API instead of writing durable state directly.&quot;,
+        steps: [&quot;MCP returns structured tool results.&quot;, &quot;CLI supports readable and JSON output.&quot;, &quot;The web dashboard uses REST plus SSE.&quot;, &quot;Lifecycle hooks report current Claude session state.&quot;],
+        source: &quot;apps/mcp/src/index.ts · apps/cli/src/index.ts · apps/web/src · scripts/claude-hook.mjs&quot;
+      },
+      {
+        id: &quot;auth&quot;, lane: 1, type: &quot;decision&quot;, label: &quot;Host + token valid?&quot;,
+        summary: &quot;The daemon enforces its loopback trust boundary before domain logic runs.&quot;,
+        steps: [&quot;Allow localhost, 127.0.0.1, or ::1 hosts.&quot;, &quot;Read the bearer token or HTTP-only session cookie.&quot;, &quot;Compare secrets in constant time.&quot;],
+        source: &quot;apps/daemon/src/app.ts · secretsMatch() · tokenFromAuthorization()&quot;
+      },
+      {
+        id: &quot;reject&quot;, lane: 1, type: &quot;reject&quot;, label: &quot;Reject 400 / 401&quot;,
+        summary: &quot;Invalid hosts or credentials stop at the boundary and never reach a repository.&quot;,
+        steps: [&quot;Unexpected hosts receive invalid_host.&quot;, &quot;Missing or bad credentials receive unauthorized.&quot;],
+        source: &quot;apps/daemon/src/app.ts · onRequest hook&quot;
+      },
+      {
+        id: &quot;validate&quot;, lane: 2, type: &quot;process&quot;, label: &quot;Validate + tag source&quot;,
+        summary: &quot;Shared schemas validate the request and attach its MCP, CLI, or web audit source.&quot;,
+        steps: [&quot;Parse input with shared Zod schemas.&quot;, &quot;Return structured HTTP 400 details for invalid input.&quot;, &quot;Preserve the caller source for audit events.&quot;],
+        source: &quot;packages/shared/src/index.ts · apps/daemon/src/app.ts&quot;
+      },
+      {
+        id: &quot;route&quot;, lane: 2, type: &quot;decision&quot;, label: &quot;Function family?&quot;,
+        summary: &quot;The API route selects one domain engine while preserving a common validation, storage, and event model.&quot;,
+        steps: [&quot;Knowledge and memory&quot;, &quot;Tasks and observed sessions&quot;, &quot;Managed runs and approvals&quot;, &quot;Automations and abilities&quot;, &quot;Browser and native adapters&quot;],
+        source: &quot;apps/daemon/src/app.ts · buildApp()&quot;
+      },
+      {
+        id: &quot;memory&quot;, lane: 2, type: &quot;process&quot;, label: &quot;Memory &amp; wiki&quot;,
+        summary: &quot;Capture, revise, link, search, recall, archive, and inspect durable Markdown knowledge pages.&quot;,
+        steps: [&quot;Create or ingest caller-synthesized content with provenance.&quot;, &quot;Normalize tags and aliases; generate a stable collision-safe slug.&quot;, &quot;Extract [[wiki links]] and maintain backlinks.&quot;, &quot;Search active pages through safe SQLite FTS5 tokens.&quot;, &quot;Require expectedRevision for edits and retain immutable history.&quot;],
+        source: &quot;apps/daemon/src/memory-repository.ts · docs/memory.md&quot;
+      },
+      {
+        id: &quot;tasks&quot;, lane: 2, type: &quot;process&quot;, label: &quot;Tasks &amp; sessions&quot;,
+        summary: &quot;Track requested work and the latest state of observed Claude Code sessions.&quot;,
+        steps: [&quot;Create and update tasks with optimistic revisions.&quot;, &quot;Fold lifecycle hook events into working, waiting, idle, ended, or error states.&quot;, &quot;Append audit events for material changes.&quot;],
+        source: &quot;apps/daemon/src/task-repository.ts · apps/daemon/src/session-repository.ts&quot;
+      },
+      {
+        id: &quot;runs&quot;, lane: 2, type: &quot;process&quot;, label: &quot;Managed runs&quot;,
+        summary: &quot;Run Claude agents, local commands, and browser operations with durable logs and cancellation.&quot;,
+        steps: [&quot;Validate allowed working directories and strip secret-looking environment variables.&quot;, &quot;Create a durable run record.&quot;, &quot;Park sensitive tool, command, and browser actions for approval.&quot;, &quot;Stream ordered logs and persist terminal state.&quot;],
+        source: &quot;apps/daemon/src/execution-service.ts · apps/daemon/src/execution-repository.ts&quot;
+      },
+      {
+        id: &quot;automation&quot;, lane: 2, type: &quot;process&quot;, label: &quot;Automations &amp; abilities&quot;,
+        summary: &quot;Turn time or notification triggers into reminders, agents, commands, or validated abilities.&quot;,
+        steps: [&quot;Poll due schedules once per second.&quot;, &quot;Match notification-triggered rules with cooldowns.&quot;, &quot;Validate ability input and interpolate executable arguments.&quot;, &quot;Reuse the normal command approval path for abilities.&quot;],
+        source: &quot;apps/daemon/src/automation-service.ts · apps/daemon/src/assistant-repository.ts&quot;
+      },
+      {
+        id: &quot;browser&quot;, lane: 2, type: &quot;process&quot;, label: &quot;Browser &amp; native&quot;,
+        summary: &quot;Bridge signed-in Calendar and Slack tabs plus operating-system notification and clipboard helpers.&quot;,
+        steps: [&quot;Queue browser reads directly.&quot;, &quot;Gate browser writes behind a persisted approval.&quot;, &quot;Lease jobs to the Chrome extension and record completion.&quot;, &quot;Use native helpers for notifications and clipboard images.&quot;],
+        source: &quot;browser-extension · apps/daemon/src/native-service.ts · native/macos&quot;
+      },
+      {
+        id: &quot;memoryState&quot;, lane: 3, type: &quot;state&quot;, label: &quot;Memory · FTS · links · revisions&quot;,
+        summary: &quot;A memory write updates every related structure in one immediate SQLite transaction.&quot;,
+        steps: [&quot;Write the page record.&quot;, &quot;Write the immutable revision snapshot.&quot;, &quot;Replace outgoing-link rows.&quot;, &quot;Update the active-page FTS index.&quot;, &quot;Append an audit event before commit.&quot;],
+        source: &quot;SqliteMemoryRepository.#transaction()&quot;
+      },
+      {
+        id: &quot;taskState&quot;, lane: 3, type: &quot;state&quot;, label: &quot;Tasks · sessions · events&quot;,
+        summary: &quot;Task and session repositories own revision-safe state and append-only events.&quot;,
+        steps: [&quot;Persist the current entity state.&quot;, &quot;Reject stale task revisions.&quot;, &quot;Record the source and payload of each change.&quot;],
+        source: &quot;TaskRepository · SessionRepository&quot;
+      },
+      {
+        id: &quot;approval&quot;, lane: 3, type: &quot;decision&quot;, label: &quot;Approval required?&quot;,
+        summary: &quot;Sensitive actions cannot execute until a persisted one-time approval is resolved.&quot;,
+        steps: [&quot;Commands always begin in waiting_approval.&quot;, &quot;Agent SDK tool permissions park their callback.&quot;, &quot;Calendar and Slack writes wait for approval.&quot;, &quot;Denial cancels or rejects the pending action.&quot;],
+        source: &quot;ExecutionService.resolveApproval()&quot;
+      },
+      {
+        id: &quot;scheduleState&quot;, lane: 3, type: &quot;state&quot;, label: &quot;Schedules · notifications&quot;,
+        summary: &quot;The daemon stores the next fire time and keeps the web reminder inbox authoritative.&quot;,
+        steps: [&quot;One-shot triggers disable after firing.&quot;, &quot;Intervals compute their next timestamp.&quot;, &quot;Failures become durable notifications.&quot;, &quot;Native delivery is best effort.&quot;],
+        source: &quot;AssistantRepository · AutomationService.#fire()&quot;
+      },
+      {
+        id: &quot;jobState&quot;, lane: 3, type: &quot;state&quot;, label: &quot;Jobs · leases · results&quot;,
+        summary: &quot;Browser jobs use short leases so an extension shutdown cannot strand work indefinitely.&quot;,
+        steps: [&quot;Create a browser job tied to its run when relevant.&quot;, &quot;Claim one queued job with a lease.&quot;, &quot;Complete with a result or error.&quot;, &quot;Reflect completion in durable run state.&quot;],
+        source: &quot;AssistantRepository.createBrowserJob() · claimBrowserJob() · completeBrowserJob()&quot;
+      },
+      {
+        id: &quot;apiResult&quot;, lane: 4, type: &quot;output&quot;, label: &quot;API response + SSE&quot;,
+        summary: &quot;Committed knowledge changes return through the API and publish to live dashboard subscribers.&quot;,
+        steps: [&quot;Return structured memory data to the caller.&quot;, &quot;Publish the audit event only after the transaction commits.&quot;, &quot;Refresh connected web clients through EventHub.&quot;],
+        source: &quot;apps/daemon/src/event-hub.ts · /api/events/stream&quot;
+      },
+      {
+        id: &quot;uiResult&quot;, lane: 4, type: &quot;output&quot;, label: &quot;Dashboard · MCP · CLI&quot;,
+        summary: &quot;All interfaces observe the same validated daemon-owned state.&quot;,
+        steps: [&quot;Dashboard re-renders from REST and SSE.&quot;, &quot;MCP returns structuredContent.&quot;, &quot;CLI prints readable or JSON output.&quot;],
+        source: &quot;packages/client/src/index.ts&quot;
+      },
+      {
+        id: &quot;approvalQueue&quot;, lane: 4, type: &quot;output&quot;, label: &quot;Approval queue&quot;,
+        summary: &quot;The user explicitly approves or denies the proposed effect.&quot;,
+        steps: [&quot;Show the action summary and payload.&quot;, &quot;Persist the decision and optional note.&quot;, &quot;Resume or cancel the waiting execution.&quot;],
+        source: &quot;/api/approvals/:id/resolve&quot;
+      },
+      {
+        id: &quot;execution&quot;, lane: 4, type: &quot;output&quot;, label: &quot;Execute + persist logs&quot;,
+        summary: &quot;Approved work executes within its constrained runtime and reports durable progress.&quot;,
+        steps: [&quot;Spawn commands with executable and argument arrays using shell: false.&quot;, &quot;Resume the Agent SDK permission callback.&quot;, &quot;Dispatch approved browser writes.&quot;, &quot;Persist logs, result, error, and completion status.&quot;],
+        source: &quot;apps/daemon/src/execution-service.ts&quot;
+      },
+      {
+        id: &quot;reminder&quot;, lane: 4, type: &quot;output&quot;, label: &quot;Reminder inbox + native notice&quot;,
+        summary: &quot;Every reminder lands in the durable web inbox even when desktop delivery fails.&quot;,
+        steps: [&quot;Create the assistant notification.&quot;, &quot;Attempt platform-native delivery.&quot;, &quot;Keep unread/read state in SQLite.&quot;],
+        source: &quot;AutomationService.#fire() · NativeService.notify()&quot;
+      },
+      {
+        id: &quot;adapter&quot;, lane: 4, type: &quot;output&quot;, label: &quot;Signed-in browser / OS&quot;,
+        summary: &quot;Narrow adapters perform the approved visible-browser or native operation.&quot;,
+        steps: [&quot;Operate an already signed-in Calendar or Slack tab.&quot;, &quot;Fail safely on login screens or missing selectors.&quot;, &quot;Read clipboard images or observe system notifications locally.&quot;],
+        source: &quot;browser-extension · native/macos · NativeService&quot;
+      },
+      {
+        id: &quot;end&quot;, lane: 4, type: &quot;end&quot;, label: &quot;Durable auditable outcome&quot;,
+        summary: &quot;The lifecycle ends with current state, a recorded source, and a result visible to the appropriate client.&quot;,
+        steps: [&quot;State survives individual Claude Code sessions.&quot;, &quot;Material mutations remain auditable.&quot;, &quot;Live consumers can update immediately.&quot;],
+        source: &quot;SQLite events + EventHub&quot;
+      }
+    ];
+
+    const byId = new Map(nodes.map((node) =&gt; [node.id, node]));
+    let selectedId = &quot;memory&quot;;
+    let frameToken = 0;
+    const ns = &quot;http://www.w3.org/2000/svg&quot;;
+
+    function el(name, attributes = {}) {
+      const element = document.createElementNS(ns, name);
+      Object.entries(attributes).forEach(([key, value]) =&gt; element.setAttribute(key, String(value)));
+      return element;
+    }
+
+    function showDetail(id) {
+      const node = byId.get(id);
+      if (!node) return;
+      selectedId = selectedId === id &amp;&amp; !detail.hidden ? null : id;
+      if (!selectedId) {
+        detail.hidden = true;
+        draw();
+        return;
+      }
+      detail.hidden = false;
+      detailLane.textContent = lanes[node.lane];
+      detailTitle.textContent = node.label;
+      detailSummary.textContent = node.summary;
+      detailSteps.replaceChildren(...node.steps.map((step) =&gt; {
+        const item = document.createElement(&quot;li&quot;);
+        item.textContent = step;
+        return item;
+      }));
+      detailSource.replaceChildren();
+      const code = document.createElement(&quot;code&quot;);
+      code.textContent = node.source;
+      detailSource.append(&quot;Source: &quot;, code);
+      draw();
+    }
+
+    closeButton.addEventListener(&quot;click&quot;, () =&gt; {
+      selectedId = null;
+      detail.hidden = true;
+      draw();
+    });
+
+    function nodePosition(id, width, compact) {
+      const laneWidth = width / 5;
+      const center = (lane) =&gt; laneWidth * (lane + 0.5);
+      if (!compact) {
+        const wide = {
+          start: [center(0), 92, 112, 48], entry: [center(0), 172, 146, 58],
+          auth: [center(1), 172, 132, 82], reject: [center(1), 286, 136, 48],
+          validate: [center(2), 172, 150, 58], route: [center(2), 286, 136, 82],
+          memory: [center(2), 410, 150, 58], tasks: [center(2), 510, 150, 58],
+          runs: [center(2), 610, 150, 58], automation: [center(2), 710, 150, 58],
+          browser: [center(2), 810, 150, 58], memoryState: [center(3), 410, 154, 60],
+          taskState: [center(3), 510, 154, 60], approval: [center(3), 610, 138, 82],
+          scheduleState: [center(3), 710, 154, 60], jobState: [center(3), 810, 154, 60],
+          apiResult: [center(4), 410, 148, 58], uiResult: [center(4), 510, 148, 58],
+          approvalQueue: [center(4), 575, 148, 54], execution: [center(4), 655, 148, 58],
+          reminder: [center(4), 735, 148, 58], adapter: [center(4), 815, 148, 58],
+          end: [center(4), 920, 154, 52]
+        };
+        const raw = wide[id];
+        const maxWidth = Math.max(88, laneWidth - 20);
+        return { x: raw[0], y: raw[1], w: Math.min(raw[2], maxWidth), h: raw[3] };
+      }
+      const centerX = width / 2;
+      const compactY = {
+        start: 68, entry: 145, auth: 235, reject: 345, validate: 440, route: 540,
+        memory: 675, memoryState: 755, apiResult: 835,
+        tasks: 960, taskState: 1040, uiResult: 1120,
+        runs: 1245, approval: 1335, approvalQueue: 1430, execution: 1515,
+        automation: 1640, scheduleState: 1720, reminder: 1800,
+        browser: 1925, jobState: 2005, adapter: 2085, end: 2205
+      };
+      const wideNode = Math.min(224, width - 44);
+      const narrowNode = Math.min(190, width - 70);
+      const node = byId.get(id);
+      const compactX = id === &quot;reject&quot; ? width * 0.32 : id === &quot;validate&quot; ? width * 0.68 : centerX;
+      const compactWidth = id === &quot;reject&quot;
+        ? Math.min(132, width * 0.43)
+        : id === &quot;validate&quot;
+          ? Math.min(164, width * 0.5)
+          : node.type === &quot;decision&quot;
+            ? narrowNode
+            : wideNode;
+      return {
+        x: compactX,
+        y: compactY[id],
+        w: compactWidth,
+        h: node.type === &quot;decision&quot; ? 78 : node.type === &quot;start&quot; || node.type === &quot;end&quot; || node.type === &quot;reject&quot; ? 50 : 58
+      };
+    }
+
+    function anchor(position, side) {
+      if (side === &quot;left&quot;) return [position.x - position.w / 2, position.y];
+      if (side === &quot;right&quot;) return [position.x + position.w / 2, position.y];
+      if (side === &quot;top&quot;) return [position.x, position.y - position.h / 2];
+      return [position.x, position.y + position.h / 2];
+    }
+
+    function addPath(layer, d, marker = true, className = &quot;flow-edge&quot;) {
+      const path = el(&quot;path&quot;, { d, class: className });
+      if (marker) path.setAttribute(&quot;marker-end&quot;, &quot;url(#cc-flow-arrow)&quot;);
+      layer.append(path);
+      return path;
+    }
+
+    function addLabel(layer, text, x, y) {
+      const label = el(&quot;text&quot;, { x, y, class: &quot;edge-label&quot;, &quot;text-anchor&quot;: &quot;middle&quot; });
+      label.textContent = text;
+      layer.append(label);
+    }
+
+    function connect(layer, positions, fromId, toId, label) {
+      const from = positions.get(fromId);
+      const to = positions.get(toId);
+      if (!from || !to) return;
+      let d;
+      let lx;
+      let ly;
+      if (Math.abs(from.x - to.x) &lt; 4) {
+        const [sx, sy] = anchor(from, &quot;bottom&quot;);
+        const [tx, ty] = anchor(to, &quot;top&quot;);
+        d = `M ${sx} ${sy} V ${ty}`;
+        lx = sx + 16;
+        ly = (sy + ty) / 2;
+      } else {
+        const movingRight = to.x &gt; from.x;
+        const [sx, sy] = anchor(from, movingRight ? &quot;right&quot; : &quot;left&quot;);
+        const [tx, ty] = anchor(to, movingRight ? &quot;left&quot; : &quot;right&quot;);
+        const mx = (sx + tx) / 2;
+        d = `M ${sx} ${sy} H ${mx} V ${ty} H ${tx}`;
+        lx = mx;
+        ly = sy - 6;
+      }
+      addPath(layer, d);
+      if (label) addLabel(layer, label, lx, ly);
+    }
+
+    function drawWideEdges(layer, positions, width) {
+      connect(layer, positions, &quot;start&quot;, &quot;entry&quot;);
+      connect(layer, positions, &quot;entry&quot;, &quot;auth&quot;);
+      connect(layer, positions, &quot;auth&quot;, &quot;reject&quot;, &quot;No&quot;);
+      connect(layer, positions, &quot;auth&quot;, &quot;validate&quot;, &quot;Yes&quot;);
+      connect(layer, positions, &quot;validate&quot;, &quot;route&quot;);
+
+      const route = positions.get(&quot;route&quot;);
+      const memory = positions.get(&quot;memory&quot;);
+      const browserNode = positions.get(&quot;browser&quot;);
+      const branchX = route.x - route.w / 2 - 14;
+      addPath(layer, `M ${route.x} ${route.y + route.h / 2} V ${route.y + route.h / 2 + 18} H ${branchX} V ${browserNode.y}`, false, &quot;flow-trunk&quot;);
+      [&quot;memory&quot;, &quot;tasks&quot;, &quot;runs&quot;, &quot;automation&quot;, &quot;browser&quot;].forEach((id) =&gt; {
+        const target = positions.get(id);
+        addPath(layer, `M ${branchX} ${target.y} H ${target.x - target.w / 2}`);
+      });
+
+      connect(layer, positions, &quot;memory&quot;, &quot;memoryState&quot;);
+      connect(layer, positions, &quot;tasks&quot;, &quot;taskState&quot;);
+      connect(layer, positions, &quot;runs&quot;, &quot;approval&quot;);
+      connect(layer, positions, &quot;automation&quot;, &quot;scheduleState&quot;);
+      connect(layer, positions, &quot;browser&quot;, &quot;jobState&quot;);
+      connect(layer, positions, &quot;memoryState&quot;, &quot;apiResult&quot;);
+      connect(layer, positions, &quot;taskState&quot;, &quot;uiResult&quot;);
+      connect(layer, positions, &quot;approval&quot;, &quot;approvalQueue&quot;, &quot;Yes&quot;);
+      connect(layer, positions, &quot;approval&quot;, &quot;execution&quot;, &quot;No&quot;);
+      connect(layer, positions, &quot;approvalQueue&quot;, &quot;execution&quot;, &quot;Approved&quot;);
+      connect(layer, positions, &quot;scheduleState&quot;, &quot;reminder&quot;);
+      connect(layer, positions, &quot;jobState&quot;, &quot;adapter&quot;);
+
+      const end = positions.get(&quot;end&quot;);
+      const laneWidth = width / 5;
+      const mergeX = width - Math.max(8, laneWidth * 0.04);
+      const outputIds = [&quot;apiResult&quot;, &quot;uiResult&quot;, &quot;execution&quot;, &quot;reminder&quot;, &quot;adapter&quot;];
+      const first = positions.get(outputIds[0]);
+      addPath(layer, `M ${mergeX} ${first.y} V ${end.y}`, false, &quot;flow-trunk&quot;);
+      outputIds.forEach((id) =&gt; {
+        const output = positions.get(id);
+        addPath(layer, `M ${output.x + output.w / 2} ${output.y} H ${mergeX}`, false, &quot;flow-trunk&quot;);
+      });
+      addPath(layer, `M ${mergeX} ${end.y} H ${end.x + end.w / 2}`);
+    }
+
+    function drawCompactEdges(layer, positions, width) {
+      const ordered = [
+        [&quot;start&quot;, &quot;entry&quot;], [&quot;entry&quot;, &quot;auth&quot;], [&quot;auth&quot;, &quot;reject&quot;, &quot;No&quot;],
+        [&quot;auth&quot;, &quot;validate&quot;, &quot;Yes&quot;], [&quot;validate&quot;, &quot;route&quot;]
+      ];
+      ordered.forEach(([from, to, label]) =&gt; connect(layer, positions, from, to, label));
+      const route = positions.get(&quot;route&quot;);
+      const branchX = 14;
+      const lastBranch = positions.get(&quot;browser&quot;);
+      addPath(layer, `M ${route.x} ${route.y + route.h / 2} V ${route.y + route.h / 2 + 18} H ${branchX} V ${lastBranch.y}`, false, &quot;flow-trunk&quot;);
+      [&quot;memory&quot;, &quot;tasks&quot;, &quot;runs&quot;, &quot;automation&quot;, &quot;browser&quot;].forEach((id) =&gt; {
+        const target = positions.get(id);
+        addPath(layer, `M ${branchX} ${target.y} H ${target.x - target.w / 2}`);
+      });
+      connect(layer, positions, &quot;memory&quot;, &quot;memoryState&quot;);
+      connect(layer, positions, &quot;memoryState&quot;, &quot;apiResult&quot;);
+      connect(layer, positions, &quot;tasks&quot;, &quot;taskState&quot;);
+      connect(layer, positions, &quot;taskState&quot;, &quot;uiResult&quot;);
+      connect(layer, positions, &quot;runs&quot;, &quot;approval&quot;);
+      connect(layer, positions, &quot;approval&quot;, &quot;approvalQueue&quot;, &quot;Yes&quot;);
+      connect(layer, positions, &quot;approvalQueue&quot;, &quot;execution&quot;, &quot;Approved&quot;);
+      connect(layer, positions, &quot;automation&quot;, &quot;scheduleState&quot;);
+      connect(layer, positions, &quot;scheduleState&quot;, &quot;reminder&quot;);
+      connect(layer, positions, &quot;browser&quot;, &quot;jobState&quot;);
+      connect(layer, positions, &quot;jobState&quot;, &quot;adapter&quot;);
+      const end = positions.get(&quot;end&quot;);
+      const mergeX = width - 14;
+      [&quot;apiResult&quot;, &quot;uiResult&quot;, &quot;execution&quot;, &quot;reminder&quot;, &quot;adapter&quot;].forEach((id) =&gt; {
+        const output = positions.get(id);
+        addPath(layer, `M ${output.x + output.w / 2} ${output.y} H ${mergeX}`, false, &quot;flow-trunk&quot;);
+      });
+      addPath(layer, `M ${mergeX} ${positions.get(&quot;apiResult&quot;).y} V ${end.y} H ${end.x + end.w / 2}`);
+    }
+
+    function drawShape(layer, node, position) {
+      const selectedClass = selectedId === node.id ? &quot; is-selected&quot; : &quot;&quot;;
+      let shape;
+      if (node.type === &quot;start&quot;) {
+        shape = el(&quot;ellipse&quot;, { cx: position.x, cy: position.y, rx: position.w / 2, ry: position.h / 2, class: `node-shape shape-start${selectedClass}` });
+      } else if (node.type === &quot;decision&quot;) {
+        const points = `${position.x},${position.y - position.h / 2} ${position.x + position.w / 2},${position.y} ${position.x},${position.y + position.h / 2} ${position.x - position.w / 2},${position.y}`;
+        shape = el(&quot;polygon&quot;, { points, class: `node-shape shape-decision${selectedClass}` });
+      } else {
+        const shapeClass = node.type === &quot;state&quot; ? &quot;shape-state&quot; : node.type === &quot;output&quot; ? &quot;shape-output&quot; : node.type === &quot;end&quot; ? &quot;shape-end&quot; : node.type === &quot;reject&quot; ? &quot;shape-reject&quot; : &quot;shape-process&quot;;
+        shape = el(&quot;rect&quot;, {
+          x: position.x - position.w / 2, y: position.y - position.h / 2,
+          width: position.w, height: position.h,
+          rx: node.type === &quot;end&quot; || node.type === &quot;reject&quot; ? position.h / 2 : 6,
+          class: `node-shape ${shapeClass}${selectedClass}`
+        });
+      }
+      layer.append(shape);
+
+      const foreign = el(&quot;foreignObject&quot;, {
+        x: position.x - position.w / 2, y: position.y - position.h / 2,
+        width: position.w, height: position.h
+      });
+      const shell = document.createElement(&quot;div&quot;);
+      shell.className = &quot;node-label-shell&quot;;
+      const button = document.createElement(&quot;button&quot;);
+      button.type = &quot;button&quot;;
+      button.className = &quot;btn btn-ghost btn-block&quot;;
+      button.setAttribute(&quot;aria-expanded&quot;, selectedId === node.id &amp;&amp; !detail.hidden ? &quot;true&quot; : &quot;false&quot;);
+      button.setAttribute(&quot;aria-controls&quot;, &quot;cc-kb-node-detail&quot;);
+      button.textContent = `${node.label} ${selectedId === node.id &amp;&amp; !detail.hidden ? &quot;−&quot; : &quot;+&quot;}`;
+      button.addEventListener(&quot;click&quot;, () =&gt; showDetail(node.id));
+      shell.append(button);
+      foreign.append(shell);
+      layer.append(foreign);
+    }
+
+    function draw() {
+      const width = Math.max(300, Math.round(root.getBoundingClientRect().width));
+      const compact = width &lt; 620;
+      const height = compact ? 2260 : 970;
+      svg.replaceChildren();
+      svg.setAttribute(&quot;viewBox&quot;, `0 0 ${width} ${height}`);
+      svg.setAttribute(&quot;height&quot;, String(height));
+
+      const title = el(&quot;title&quot;, { id: &quot;cc-flow-svg-title&quot; });
+      title.textContent = &quot;CC Assistant knowledge-base swimlane flowchart&quot;;
+      const description = el(&quot;desc&quot;, { id: &quot;cc-flow-svg-desc&quot; });
+      description.textContent = &quot;Requests flow from interfaces through daemon authentication and validation, branch into five domain engines, persist durable state, and return live or external outcomes.&quot;;
+      svg.append(title, description);
+
+      const defs = el(&quot;defs&quot;);
+      const marker = el(&quot;marker&quot;, { id: &quot;cc-flow-arrow&quot;, viewBox: &quot;0 0 10 10&quot;, refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: &quot;auto-start-reverse&quot; });
+      marker.append(el(&quot;path&quot;, { d: &quot;M 0 0 L 10 5 L 0 10 z&quot;, fill: &quot;var(--muted-foreground)&quot; }));
+      defs.append(marker);
+      svg.append(defs);
+
+      const laneLayer = el(&quot;g&quot;);
+      const edgeLayer = el(&quot;g&quot;);
+      const nodeLayer = el(&quot;g&quot;);
+      svg.append(laneLayer, edgeLayer, nodeLayer);
+
+      if (!compact) {
+        const laneWidth = width / 5;
+        laneLayer.append(el(&quot;rect&quot;, { x: 0.5, y: 0.5, width: width - 1, height: 28, class: &quot;org-header&quot; }));
+        const orgLabel = el(&quot;text&quot;, { x: width / 2, y: 19, class: &quot;org-label&quot;, &quot;text-anchor&quot;: &quot;middle&quot; });
+        orgLabel.textContent = &quot;CC Assistant&quot;;
+        laneLayer.append(orgLabel);
+        lanes.forEach((lane, index) =&gt; {
+          laneLayer.append(el(&quot;rect&quot;, { x: index * laneWidth + 0.5, y: 28.5, width: laneWidth, height: 30, class: &quot;lane-header&quot; }));
+          laneLayer.append(el(&quot;rect&quot;, { x: index * laneWidth + 0.5, y: 58.5, width: laneWidth, height: height - 59, class: `lane-body${index % 2 ? &quot; lane-alt&quot; : &quot;&quot;}` }));
+          const laneText = el(&quot;text&quot;, { x: index * laneWidth + laneWidth / 2, y: 48, class: &quot;lane-label&quot;, &quot;text-anchor&quot;: &quot;middle&quot; });
+          laneText.textContent = lane;
+          laneLayer.append(laneText);
+        });
+      } else {
+        const stageYs = [[&quot;Interfaces&quot;, 26], [&quot;Daemon gateway&quot;, 190], [&quot;Domain engines&quot;, 500], [&quot;Durable state&quot;, 715], [&quot;Results / adapters&quot;, 795]];
+        stageYs.forEach(([label, y]) =&gt; {
+          const text = el(&quot;text&quot;, { x: 8, y, class: &quot;mobile-lane-label&quot; });
+          text.textContent = label;
+          laneLayer.append(text);
+        });
+      }
+
+      const positions = new Map(nodes.map((node) =&gt; [node.id, nodePosition(node.id, width, compact)]));
+      if (compact) drawCompactEdges(edgeLayer, positions, width);
+      else drawWideEdges(edgeLayer, positions, width);
+      nodes.forEach((node) =&gt; drawShape(nodeLayer, node, positions.get(node.id)));
+    }
+
+    const resizeObserver = new ResizeObserver(() =&gt; {
+      cancelAnimationFrame(frameToken);
+      frameToken = requestAnimationFrame(draw);
+    });
+    resizeObserver.observe(root);
+    detail.id = &quot;cc-kb-node-detail&quot;;
+    showDetail(&quot;memory&quot;);
+  })();
+&lt;/script&gt;
+
+
+&lt;style id=&quot;codex-visualization-document-scrollbar&quot;&gt;html,body{scrollbar-width:none!important}html::-webkit-scrollbar,body::-webkit-scrollbar{display:none!important}&lt;/style&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+
+  const getTrigger = (target) =&gt;
+    target?.nodeType === Node.ELEMENT_NODE
+      ? target.closest(&quot;[data-tooltip]&quot;)
+      : null;
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handleLeave = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    document.removeEventListener(&quot;pointerover&quot;, handlePointerOpen);
+    document.removeEventListener(&quot;pointerout&quot;, handleLeave);
+    document.removeEventListener(&quot;focusin&quot;, handleFocusIn);
+    document.removeEventListener(&quot;focusout&quot;, handleLeave);
+    document.removeEventListener(&quot;keydown&quot;, handleKeyDown);
+    document.removeEventListener(&quot;contextmenu&quot;, handleContextMenu);
+    tooltip = null;
+  };
+
+  document.addEventListener(&quot;pointerover&quot;, handlePointerOpen);
+  document.addEventListener(&quot;pointerout&quot;, handleLeave);
+  document.addEventListener(&quot;focusin&quot;, handleFocusIn);
+  document.addEventListener(&quot;focusout&quot;, handleLeave);
+  document.addEventListener(&quot;keydown&quot;, handleKeyDown);
+  document.addEventListener(&quot;contextmenu&quot;, handleContextMenu);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+<script>(() => {
+  const frame = document.getElementById("codex-visualization");
+  if (!(frame instanceof HTMLIFrameElement)) {
+    return;
+  }
+  let viewportHeight = globalThis.innerHeight;
+
+  const channel = new MessageChannel();
+  channel.port1.addEventListener("message", (event) => {
+    const data = event.data;
+    if (typeof data !== "object" || data == null) {
+      return;
+    }
+    if (data.type === "height") {
+      const height = data.height;
+      if (
+        typeof height === "number" &&
+        Number.isFinite(height) &&
+        height >= 0 &&
+        height <= 10_000
+      ) {
+        frame.style.height = Math.ceil(height) + "px";
+      }
+      return;
+    }
+    if (data.type === "scroll-to") {
+      const top = data.top;
+      if (
+        typeof top === "number" &&
+        Number.isFinite(top) &&
+        top >= 0 &&
+        globalThis.navigator.userActivation?.isActive === true
+      ) {
+        globalThis.scrollTo({
+          top: Math.ceil(
+            globalThis.scrollY + frame.getBoundingClientRect().top + top,
+          ),
+        });
+      }
+      return;
+    }
+    if (data.type === "open-external") {
+      const rawHref = data.href;
+      if (typeof rawHref !== "string") {
+        return;
+      }
+      let href;
+      try {
+        const url = new URL(rawHref, document.baseURI);
+        if (url.protocol !== "https:") {
+          return;
+        }
+        href = url.href;
+      } catch {
+        return;
+      }
+      if (globalThis.navigator.userActivation?.isActive === true) {
+        const anchor = document.createElement("a");
+        anchor.href = href;
+        anchor.rel = "noopener noreferrer";
+        anchor.target = "_blank";
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+      }
+      return;
+    }
+    if (data.type === "follow-up") {
+      const prompt = data.prompt;
+      if (
+        typeof prompt !== "string" ||
+        globalThis.navigator.userActivation?.isActive !== true
+      ) {
+        return;
+      }
+      const title = data.title;
+      globalThis.prompt(typeof title === "string" ? title : prompt, prompt);
+    }
+  });
+  channel.port1.start();
+  const srcdoc = frame.dataset.srcdoc;
+  if (srcdoc == null) {
+    return;
+  }
+  globalThis.addEventListener("resize", () => {
+    const height = Number.parseFloat(frame.style.height);
+    if (!Number.isFinite(height) || height <= viewportHeight) {
+      frame.style.removeProperty("height");
+    }
+    viewportHeight = globalThis.innerHeight;
+    channel.port1.postMessage({ type: "measure" });
+  });
+  frame.addEventListener(
+    "load",
+    () => {
+      frame.contentWindow?.postMessage(
+        { type: "codex-visualization-initialize" },
+        "*",
+        [channel.port2],
+      );
+    },
+    { once: true },
+  );
+  frame.srcdoc = srcdoc;
+  delete frame.dataset.srcdoc;
+})();
+</script>
+</body>
+</html>
